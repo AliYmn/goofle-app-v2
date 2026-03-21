@@ -2,6 +2,7 @@ import { View, Text } from 'react-native';
 import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button } from '@/components/ui/Button';
+import { OnboardingArtwork } from '@/components/ui/OnboardingArtwork';
 import { t } from '@/lib/i18n';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { supabase } from '@/lib/supabase';
@@ -24,9 +25,7 @@ export default function FirstGenerateScreen() {
       className="flex-1 bg-black px-6"
     >
       <View className="flex-1 items-center justify-center gap-8">
-        <View className="w-24 h-24 rounded-full bg-lime items-center justify-center">
-          <Text className="text-5xl">⚡</Text>
-        </View>
+        <OnboardingArtwork variant="launch" />
         <View className="gap-3 items-center">
           <Text className="text-white font-bold text-3xl text-center">
             {t('onboarding.firstGenerate.title')}

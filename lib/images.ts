@@ -1,4 +1,5 @@
 export const APP_ICON = require('@/assets/images/icon.png');
+export const APP_SPLASH_ICON = require('@/assets/images/splash-icon.png');
 
 type PublicBucket = 'avatars' | 'mod-thumbs' | 'generations';
 

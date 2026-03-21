@@ -40,6 +40,15 @@
 
 **Why:** The post-splash onboarding screens did not actually render image assets, only emoji placeholders, which made the UI look like visuals were failing to load.
 
+## 2026-03-22 -- Onboarding icon consistency
+
+**What changed:**
+- Replaced emoji-based onboarding markers with `Ionicons` in `components/ui/OnboardingArtwork.tsx`
+- Switched onboarding artwork and welcome screen to use the splash asset instead of the plain app icon
+- Updated `app/(onboarding)/welcome.tsx` to visually match the lime splash treatment
+
+**Why:** Some devices rendered the emoji placeholders as question-mark boxes, and the onboarding visuals did not match the splash screen's style.
+
 ## 2026-03-22 -- P1 core features implementation
 
 **What changed:**
