@@ -30,3 +30,14 @@
 - Routed unverified email/password sign-ins to `/(auth)/verify-email` instead of trapping users in the sign-up flow
 
 **Why:** Users trying to log in with email were being sent into account creation, which incorrectly triggered the verify-email screen and made the auth flow look broken.
+
+## 2026-03-22 -- P1 core features implementation
+
+**What changed:**
+- Community mod creation screen (app/create-mod.tsx) with name, category, prompt, auto-thumbnail
+- Prompt library (app/prompt-library.tsx) with voting, copy, share, create-mod-from-prompt
+- Settings expanded with notification and privacy sections
+- expo-clipboard installed for prompt copy feature
+- TR/EN translations for all new features
+
+**Why:** Implementing remaining P1 features from project spec to reach MVP completeness.

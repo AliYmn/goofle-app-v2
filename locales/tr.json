@@ -126,6 +126,16 @@
     "likes": "{{count}} beğeni",
     "tryThis": "Bu Modu Dene",
     "createMod": "Mod Oluştur",
+    "modName": "Mod Adi",
+    "modNamePlaceholder": "orn. Cyberpunk Hacker",
+    "modPrompt": "Prompt",
+    "modPromptPlaceholder": "AI'nin uygulayacagi donusumu tanimla...",
+    "category": "Kategori",
+    "thumbnail": "Kapak Gorseli",
+    "generateThumbnail": "Kapak Olustur",
+    "regenerateThumbnail": "Yeniden Olustur",
+    "publish": "Yayinla",
+    "created": "Mod yayinlandi!",
     "empty": {
       "title": "Mod Bulunamadı",
       "body": "Arama kriterlerinle eşleşen mod yok.",
@@ -157,6 +167,16 @@
     "myMods": "Modlarım",
     "streak": "{{count}} günlük seri",
     "topStreak": "En uzun: {{count}} gün"
+  },
+  "promptLibrary": {
+    "title": "Prompt Kutuphanesi",
+    "share": "Paylas",
+    "sharePrompt": "Prompt Paylas",
+    "placeholder": "Harika sonuclar ureten bir prompt yaz...",
+    "copy": "Kopyala",
+    "createMod": "Mod Olustur",
+    "added": "Prompt paylasild!",
+    "empty": "Henuz prompt yok. Ilk paylasan sen ol!"
   },
   "challenge": {
     "title": "Gunluk Gorev",
@@ -194,6 +214,14 @@
       "dark": "Koyu"
     },
     "language": "Dil",
+    "notificationSettings": {
+      "dailyReminder": "Gunluk Hatirlatma Saati",
+      "streakAlert": "Seri Uyarisi",
+      "modUsed": "Biri modunu kullandi"
+    },
+    "privacySettings": {
+      "hideOriginal": "Orijinal selfie'yi akista gizle"
+    },
     "restorePurchases": "Satın Almaları Geri Yükle",
     "privacyPolicy": "Gizlilik Politikası",
     "termsOfService": "Kullanım Şartları",

@@ -126,6 +126,16 @@
     "likes": "{{count}} likes",
     "tryThis": "Try This Mod",
     "createMod": "Create Mod",
+    "modName": "Mod Name",
+    "modNamePlaceholder": "e.g. Cyberpunk Hacker",
+    "modPrompt": "Prompt",
+    "modPromptPlaceholder": "Describe the transformation you want AI to apply...",
+    "category": "Category",
+    "thumbnail": "Thumbnail",
+    "generateThumbnail": "Generate Thumbnail",
+    "regenerateThumbnail": "Regenerate",
+    "publish": "Publish",
+    "created": "Mod published!",
     "empty": {
       "title": "No Mods Found",
       "body": "No mods match your search criteria.",
@@ -157,6 +167,16 @@
     "myMods": "My Mods",
     "streak": "{{count}} day streak",
     "topStreak": "Best: {{count}} days"
+  },
+  "promptLibrary": {
+    "title": "Prompt Library",
+    "share": "Share",
+    "sharePrompt": "Share Prompt",
+    "placeholder": "Write a prompt that creates amazing results...",
+    "copy": "Copy",
+    "createMod": "Create Mod",
+    "added": "Prompt shared!",
+    "empty": "No prompts yet. Be the first to share!"
   },
   "challenge": {
     "title": "Daily Challenge",
@@ -194,6 +214,14 @@
       "dark": "Dark"
     },
     "language": "Language",
+    "notificationSettings": {
+      "dailyReminder": "Daily Reminder Time",
+      "streakAlert": "Streak Warning",
+      "modUsed": "Someone used your mod"
+    },
+    "privacySettings": {
+      "hideOriginal": "Hide original selfie in feed"
+    },
     "restorePurchases": "Restore Purchases",
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service",

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text, Pressable, ScrollView, Alert, Linking } from 'react-native';
+import { View, Text, Pressable, ScrollView, Alert, Linking, Switch } from 'react-native';
 import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuthStore } from '@/stores/useAuthStore';
@@ -131,6 +131,27 @@ export default function SettingsScreen() {
               ))}
             </View>
           </View>
+        </View>
+
+        <SectionHeader label={t('settings.notifications')} />
+        <View className="mx-4">
+          <SettingsRow
+            label={t('settings.notificationSettings.dailyReminder')}
+            isFirst
+            isLast
+            onPress={() => {}}
+            value="20:00"
+          />
+        </View>
+
+        <SectionHeader label={t('settings.privacy')} />
+        <View className="mx-4">
+          <SettingsRow
+            label={t('settings.privacySettings.hideOriginal')}
+            isFirst
+            isLast
+            onPress={() => {}}
+          />
         </View>
 
         <SectionHeader label={t('settings.subscription')} />

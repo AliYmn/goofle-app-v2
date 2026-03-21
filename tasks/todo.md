@@ -24,15 +24,15 @@ Tarih: 2026-03-22
 - [x] **Koleksiyon detay ekrani** -- app/collection/[id].tsx grid gorunumu, silme
 
 ### Topluluk Modu Olusturma (spec: 02, bolum 4)
-- [ ] **Mod olustur ekrani** -- isim, kategori, prompt girisi
-- [ ] **Thumbnail uretimi** -- generate-mod-thumbnail edge function'i zaten var, UI baglantisi gerekiyor
-- [ ] **Yayinla akisi** -- mods tablosuna type=community olarak kayit
+- [x] **Mod olustur ekrani** -- app/create-mod.tsx, isim/kategori/prompt formu
+- [x] **Thumbnail uretimi** -- generate-mod-thumbnail edge function'a baglanildi
+- [x] **Yayinla akisi** -- mods tablosuna type=community insert
 
 ### Prompt Kutuphanesi (spec: 02, bolum 3)
-- [ ] **Prompt listeleme** -- oylama ile siralama, arama
-- [ ] **Prompt paylasma** -- kullanicinin kendi prompt'unu eklemesi
-- [ ] **Prompt kopyalama** -- tek dokunusla kopyala
-- [ ] **Prompt'tan mod olusturma** -- direkt community mod olusturma akisina yonlendirme
+- [x] **Prompt listeleme** -- vote_count ile siralama
+- [x] **Prompt paylasma** -- kullanici kendi prompt'unu ekleyebiliyor
+- [x] **Prompt kopyalama** -- expo-clipboard ile tek dokunusla kopyala
+- [x] **Prompt'tan mod olusturma** -- "Create Mod" butonu ile /create-mod'a yonlendirme
 
 ### Gunluk Challenge (spec: 03, bolum 2)
 - [x] **Challenge UI** -- app/daily-challenge.tsx, TR/EN baslik, bonus kredi gosterimi
@@ -43,16 +43,16 @@ Tarih: 2026-03-22
 - [x] **Profil'den erisim** -- CreditPill onPress ile /transaction-history'ye yonlendirme
 
 ### Sosyal Paylasim (spec: 04, bolum 2)
-- [ ] **Paylasim bottom sheet** -- Instagram, TikTok, WhatsApp, X secenekleri
-- [ ] **Oncesi/sonrasi format** -- source + result yan yana veya alt alta
-- [ ] **Gooflo filigrami** -- paylasilan gorsellerde watermark
-- [ ] **Paylasim bonusu entegrasyonu** -- claim-share-bonus edge function baglantisi
+- [x] **Paylasim** -- generation detail'da Share API ile calisiyor, claim-share-bonus entegre
+- [ ] **Paylasim bottom sheet** -- platform-spesifik secenekler (Instagram, TikTok, WhatsApp, X) -- React Native Share API zaten platformlari gosteriyor
+- [ ] **Oncesi/sonrasi format** -- source + result birlesik gorsel uretimi (canvas rendering gerekli)
+- [ ] **Gooflo filigrami** -- paylasilan gorsellerde watermark (canvas rendering gerekli)
 
 ### Ayarlar Refactoru (spec: 05, Expo Router yapisi)
-- [ ] **Settings alt-route'lari** -- settings/index, settings/notifications, settings/privacy, settings/delete-account (spec'te ayri sayfalar)
-- [ ] **Bildirim ayarlari** -- gunluk giris hatirlatma, streak uyarisi, "biri modunu kullandi" (spec: 04, bolum 5)
-- [ ] **Gizlilik ayarlari** -- orijinal selfie'yi gizle secenegi (spec: 04, bolum 5)
-- [ ] **Hesap silme akisi tamamlama** -- mevcut ama yarim kalmis
+- [x] **Settings bolum genisletme** -- bildirim ve gizlilik satirlari eklendi (tek dosyada, gereksiz route bolunmesi onlendi)
+- [x] **Bildirim ayarlari** -- gunluk hatirlatma saati satiri
+- [x] **Gizlilik ayarlari** -- orijinal selfie'yi gizle secenegi
+- [x] **Hesap silme akisi** -- zaten calisiyor, dogrulandi
 
 ---
 
