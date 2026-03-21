@@ -10,6 +10,10 @@ dist/
 build/
 out/
 .next/
+.expo/
+ios/Pods/
+android/.gradle/
+android/app/build/
 
 # Generated
 *.min.js
@@ -18,7 +22,6 @@ out/
 coverage/
 
 # Data
-*.sql
 *.dump
 *.sqlite3
 
@@ -36,3 +39,11 @@ coverage/
 
 # Logs
 *.log
+
+# Lock files
+package-lock.json
+
+# Expo/RN generated
+.expo-shared/
+*.jsbundle
+*.hbc

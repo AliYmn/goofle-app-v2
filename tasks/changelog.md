@@ -1,5 +1,21 @@
 # Changelog
 
-No entries yet. Changes are logged here automatically by Claude after completing tasks.
+## 2026-03-22 -- Project setup with claude-structured template
 
-Format: date, what changed, where, why, impact, tests.
+**What changed:**
+- Filled CLAUDE.md with full project description, stack, commands, architecture, conventions
+- Created AGENTS.md for Codex/Zed compatibility
+- Created app/CLAUDE.md with Expo Router routing guide
+- Updated .cursor/rules/project-rules.mdc with Gooflo-specific config
+- Updated .windsurf/rules/project-rules.md with Gooflo-specific config
+- Created docs/architecture.md -- full architecture overview
+- Created docs/api-guide.md -- edge functions API reference
+- Created docs/deployment.md -- build and deploy guide
+- Updated .claudeignore and .cursorignore with Expo/RN-specific ignores
+- Updated .claude/settings.json hooks to only format code files (ts/tsx/js/jsx/json/css)
+- Updated agents: @researcher, @reviewer, @test-writer -- now Gooflo-specific
+- Created @edge-function-tester agent -- tests Supabase edge functions locally
+- Created @ui-auditor agent -- audits NativeWind components for dark mode, a11y, design system
+- Replaced new-endpoint skill with new-edge-function skill (Supabase Deno functions)
+
+**Why:** Initial project configuration to enable AI-assisted development with full context awareness across Claude Code, Cursor, and Windsurf.

@@ -6,11 +6,11 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if command -v prettier >/dev/null 2>&1; then prettier --write \"$FILEPATH\" 2>/dev/null; elif command -v ruff >/dev/null 2>&1; then ruff format \"$FILEPATH\" 2>/dev/null; elif command -v gofmt >/dev/null 2>&1; then gofmt -w \"$FILEPATH\" 2>/dev/null; fi"
+            "command": "case \"$FILEPATH\" in *.ts|*.tsx|*.js|*.jsx|*.json|*.css) if command -v prettier >/dev/null 2>&1; then prettier --write \"$FILEPATH\" 2>/dev/null || true; fi;; esac"
           },
           {
             "type": "command",
-            "command": "if command -v eslint >/dev/null 2>&1; then eslint --fix \"$FILEPATH\" 2>/dev/null; elif command -v ruff >/dev/null 2>&1; then ruff check --fix \"$FILEPATH\" 2>/dev/null; fi"
+            "command": "case \"$FILEPATH\" in *.ts|*.tsx|*.js|*.jsx) if command -v eslint >/dev/null 2>&1; then eslint --fix \"$FILEPATH\" 2>/dev/null || true; fi;; esac"
           }
         ]
       }
