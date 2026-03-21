@@ -1,0 +1,26 @@
+---
+description: Security rules for secrets, input validation, and data protection
+globs:
+  - "src/**/*"
+alwaysApply: false
+---
+
+# Security
+
+## Secrets
+- NEVER hardcode secrets, API keys, or tokens
+- NEVER commit .env files
+- Load from env vars with startup validation
+- Leaked secret = rotate immediately
+
+## Input
+- ALL user input validated server-side
+- Parameterized queries only — no string concatenation
+- Sanitize strings, enforce length limits
+- File uploads: validate MIME type and size
+
+## Data
+- Passwords: bcrypt/argon2, NEVER plaintext
+- Sensitive data never in logs or error responses
+- Rate limit auth and sensitive endpoints
+- Audit dependencies regularly

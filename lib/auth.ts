@@ -4,12 +4,17 @@ import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
-import Constants from 'expo-constants';
 
-GoogleSignin.configure({
-  webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
-  iosClientId: process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID,
-});
+const googleWebClientId = process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID;
+const googleIosClientId = process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID;
+const isGoogleSignInConfigured = Boolean(googleWebClientId && googleIosClientId);
+
+if (isGoogleSignInConfigured) {
+  GoogleSignin.configure({
+    webClientId: googleWebClientId,
+    iosClientId: googleIosClientId,
+  });
+}
 
 export type AuthError = { message: string; code?: string };
 
@@ -40,6 +45,15 @@ export async function signInWithApple(): Promise<{ error: AuthError | null }> {
 
 // ── Google Sign-In ────────────────────────────────────────
 export async function signInWithGoogle(): Promise<{ error: AuthError | null }> {
+  if (!isGoogleSignInConfigured) {
+    return {
+      error: {
+        message: 'Google Sign-In is not configured for this build yet.',
+        code: 'google_signin_not_configured',
+      },
+    };
+  }
+
   try {
     await GoogleSignin.hasPlayServices();
     const userInfo = await GoogleSignin.signIn();

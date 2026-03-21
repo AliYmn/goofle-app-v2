@@ -58,13 +58,13 @@ serve(async (req) => {
           }
         } else if (category === "longest_streak") {
           const { data: rows } = await adminClient
-            .from("streaks")
-            .select("user_id, current_streak")
+            .from("users")
+            .select("id, current_streak")
             .gt("current_streak", 0);
 
           for (const row of rows ?? []) {
             await adminClient.from("leaderboard_entries").upsert({
-              user_id: row.user_id, period_type: period, ranking_category: category,
+              user_id: row.id, period_type: period, ranking_category: category,
               period_start: periodStart, score: row.current_streak,
             }, { onConflict: "user_id,period_type,ranking_category,period_start" });
           }

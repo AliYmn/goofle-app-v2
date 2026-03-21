@@ -7,7 +7,7 @@
     "icon": "./assets/images/icon.png",
     "scheme": "gooflo",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "splash": {
       "image": "./assets/images/splash-icon.png",
       "resizeMode": "contain",
@@ -26,7 +26,9 @@
       },
       "usesAppleSignIn": true,
       "entitlements": {
-        "com.apple.developer.applesignin": ["Default"]
+        "com.apple.developer.applesignin": [
+          "Default"
+        ]
       }
     },
     "android": {
@@ -37,9 +39,11 @@
         "backgroundColor": "#BFFF00"
       },
       "permissions": [
-        "CAMERA",
-        "READ_EXTERNAL_STORAGE",
-        "WRITE_EXTERNAL_STORAGE"
+        "android.permission.CAMERA",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "com.google.android.gms.permission.AD_ID",
+        "android.permission.RECORD_AUDIO"
       ]
     },
     "web": {
@@ -85,15 +89,20 @@
         }
       ],
       "@sentry/react-native/expo",
-      "@react-native-google-signin/google-signin"
+      "@react-native-google-signin/google-signin",
+      "@sentry/react-native"
     ],
     "experiments": {
       "typedRoutes": true
     },
     "extra": {
       "eas": {
-        "projectId": "REPLACE_WITH_EAS_PROJECT_ID"
+        "projectId": "da69fbb0-5f3c-44a2-9c6e-a72536ce0a49"
+      },
+      "router": {
+        "origin": false
       }
-    }
+    },
+    "owner": "aliymn44"
   }
 }

@@ -1,7 +1,8 @@
 import '../global.css';
+import '@/lib/polyfills';
 import * as Sentry from '@sentry/react-native';
 import { useEffect } from 'react';
-import { Stack, router, useSegments } from 'expo-router';
+import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Notifications from 'expo-notifications';
 import { StatusBar } from 'expo-status-bar';
@@ -16,7 +17,6 @@ import {
 } from '@expo-google-fonts/nunito';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { ToastProvider } from '@/components/ui/Toast';
 import { useThemeStore } from '@/stores/useThemeStore';
 import { useAuthStore } from '@/stores/useAuthStore';
@@ -55,26 +55,6 @@ async function registerPushToken(userId: string) {
   } catch {
     // non-critical — silently ignore
   }
-}
-
-function RootLayoutNav() {
-  const { session, isLoading, onboardingCompleted } = useAuthStore();
-  const segments = useSegments();
-
-  useEffect(() => {
-    if (isLoading) return;
-    const inAuth = segments[0] === '(auth)';
-    const inOnboarding = segments[0] === '(onboarding)';
-    if (!session) {
-      if (!inAuth) router.replace('/(auth)/login');
-    } else if (!onboardingCompleted) {
-      if (!inOnboarding) router.replace('/(onboarding)/welcome');
-    } else {
-      if (inAuth || inOnboarding) router.replace('/(tabs)');
-    }
-  }, [session, isLoading, onboardingCompleted, segments]);
-
-  return null;
 }
 
 export default Sentry.wrap(function RootLayout() {
@@ -116,24 +96,21 @@ export default Sentry.wrap(function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
-        <BottomSheetModalProvider>
-          <ToastProvider>
-            <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
-            <RootLayoutNav />
-            <Stack screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="index" />
-              <Stack.Screen name="(auth)" />
-              <Stack.Screen name="(onboarding)" />
-              <Stack.Screen name="(tabs)" />
-              <Stack.Screen name="mod/[slug]" options={{ presentation: 'modal' }} />
-              <Stack.Screen name="generation/[id]" options={{ presentation: 'modal' }} />
-              <Stack.Screen name="collection/[id]" />
-              <Stack.Screen name="settings" />
-              <Stack.Screen name="prompt-library" />
-              <Stack.Screen name="pro" options={{ presentation: 'modal' }} />
-            </Stack>
-          </ToastProvider>
-        </BottomSheetModalProvider>
+        <ToastProvider>
+          <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="index" />
+            <Stack.Screen name="(auth)" />
+            <Stack.Screen name="(onboarding)" />
+            <Stack.Screen name="(tabs)" />
+            <Stack.Screen name="mod/[slug]" options={{ presentation: 'modal' }} />
+            <Stack.Screen name="generation/[id]" options={{ presentation: 'modal' }} />
+            <Stack.Screen name="collection/[id]" />
+            <Stack.Screen name="settings" />
+            <Stack.Screen name="prompt-library" />
+            <Stack.Screen name="pro" options={{ presentation: 'modal' }} />
+          </Stack>
+        </ToastProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );

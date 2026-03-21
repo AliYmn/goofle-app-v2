@@ -53,13 +53,13 @@ serve(async (req) => {
 
     const adminClient = createClient(supabaseUrl, serviceRoleKey);
     const { error: uploadError } = await adminClient.storage
-      .from("public-assets")
+      .from("mod-thumbs")
       .upload(filePath, imgBuffer, { contentType: "image/jpeg", upsert: true });
 
     if (uploadError) throw uploadError;
 
     const { data: publicUrl } = adminClient.storage
-      .from("public-assets")
+      .from("mod-thumbs")
       .getPublicUrl(filePath);
 
     await adminClient

@@ -1,0 +1,25 @@
+---
+description: Testing conventions and strategy
+globs:
+  - "tests/**/*"
+  - "**/*.test.*"
+  - "**/*.spec.*"
+alwaysApply: false
+---
+
+# Testing
+
+## Structure
+- Unit: no DB, no network — test logic in isolation
+- Integration: real services — verify system behavior
+- Test names describe behavior: "should return 404 when user does not exist"
+- Each test tests ONE behavior — Arrange → Act → Assert
+
+## Writing tests
+- Factories for test data, not raw objects
+- Mock at boundaries, not internal functions
+- If you need 3+ mocks, code under test does too much — refactor
+
+## Coverage
+- 80%+ on business logic
+- Don't chase 100% on config/types

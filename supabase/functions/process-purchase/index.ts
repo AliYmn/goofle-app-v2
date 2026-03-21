@@ -22,36 +22,46 @@ serve(async (req) => {
   try {
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    const anonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
+    const webhookSecret = Deno.env.get("REVENUECAT_WEBHOOK_SECRET");
 
     const authHeader = req.headers.get("Authorization");
-    if (!authHeader) {
+    if (webhookSecret && authHeader !== `Bearer ${webhookSecret}`) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
         status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    const { productId, transactionId } = await req.json();
-    if (!productId || !transactionId) {
-      return new Response(JSON.stringify({ error: "productId and transactionId required" }), {
+    const body = await req.json();
+    const event = body.event;
+    if (!event) {
+      return new Response(JSON.stringify({ error: "Invalid payload" }), {
+        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const eventType = String(event.type ?? "");
+    if (!["INITIAL_PURCHASE", "NON_RENEWING_PURCHASE"].includes(eventType)) {
+      return new Response(JSON.stringify({ ignored: true, event_type: eventType }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const productId = String(event.product_id ?? event.product_identifier ?? "");
+    const transactionId = String(
+      event.transaction_id ?? event.original_transaction_id ?? event.id ?? "",
+    );
+    const appUserId = String(event.app_user_id ?? "");
+
+    if (!productId || !transactionId || !appUserId) {
+      return new Response(JSON.stringify({ error: "Missing purchase fields" }), {
         status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
     const creditAmount = CREDIT_PACKS[productId];
     if (!creditAmount) {
-      return new Response(JSON.stringify({ error: "Unknown product" }), {
-        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-
-    const userClient = createClient(supabaseUrl, anonKey, {
-      global: { headers: { Authorization: authHeader } },
-    });
-    const { data: { user }, error: userError } = await userClient.auth.getUser();
-    if (userError || !user) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      return new Response(JSON.stringify({ ignored: true, product_id: productId }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
@@ -72,14 +82,14 @@ serve(async (req) => {
     }
 
     await adminClient.rpc("add_credits", {
-      p_user_id: user.id,
+      p_user_id: appUserId,
       p_amount: creditAmount,
       p_type: "purchase",
       p_reference_id: transactionId,
     });
 
     return new Response(
-      JSON.stringify({ success: true, credits_awarded: creditAmount }),
+      JSON.stringify({ success: true, event_type: eventType, credits_awarded: creditAmount }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (err: any) {

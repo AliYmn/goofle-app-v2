@@ -1,0 +1,31 @@
+---
+description: Code quality, naming, patterns, and error handling conventions
+globs:
+  - "src/**/*"
+  - "lib/**/*"
+alwaysApply: false
+---
+
+# Code quality
+
+## Naming
+- Functions/variables describe what they DO, not what they ARE
+- Booleans: is/has/can/should prefix
+- No abbreviations unless universal (id, url, api — ok)
+
+## Patterns
+- Composition over inheritance
+- Pure functions, minimize side effects
+- Early returns to reduce nesting
+- Functions under 40 lines
+- Dependency injection over hard-coded deps
+
+## Error handling
+- Domain-specific error types
+- No silent catches
+- Context in messages: what failed, why, with what input
+
+## Imports
+- Group: stdlib → third-party → local
+- Absolute imports from project root
+- No wildcard imports

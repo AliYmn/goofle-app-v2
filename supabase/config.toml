@@ -59,7 +59,7 @@ port = 54322
 shadow_port = 54320
 # The database major version to use. This has to be the same as your remote database's. Run `SHOW
 # server_version;` on the remote database to check.
-major_version = 15
+major_version = 17
 
 [studio]
 enabled = true
@@ -75,9 +75,8 @@ enabled = true
 # The maximum file size allowed (e.g. "5MB", "500KB").
 file_size_limit = "50MiB"
 
-[functions]
-# Set to "eszip" for deno, "node" for node.
-verify_jwt = true
+[edge_runtime]
+enabled = true
 
 [analytics]
 enabled = false

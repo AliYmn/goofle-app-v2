@@ -14,7 +14,7 @@ install:
 
 supabase-init:
 	supabase login
-	supabase link --project-ref yqvalrbdgfhvesynsozx
+	supabase link --project-ref ltiuesiyblhkihdypqbv
 
 # ── Development ────────────────────────────────────────────────
 dev:
@@ -58,7 +58,7 @@ edge-serve:
 # ── Environment ────────────────────────────────────────────────
 env-push:
 	supabase secrets set \
-	  FAL_KEY=$(FAL_KEY) \
+	  FAL_API_KEY=$(FAL_KEY) \
 	  RESEND_API_KEY=$(RESEND_API_KEY) \
 	  REVENUECAT_WEBHOOK_SECRET=$(REVENUECAT_WEBHOOK_SECRET) \
 	  SUPABASE_SERVICE_ROLE_KEY=$(SUPABASE_SERVICE_ROLE_KEY)
