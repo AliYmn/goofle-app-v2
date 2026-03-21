@@ -27,8 +27,10 @@ export default function GenerationDetailScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [isPublic, setIsPublic] = useState(false);
   const [toggling, setToggling] = useState(false);
+  // Capture on mount so the URL survives a store reset while this screen is shown
+  const [capturedImageUrl] = useState<string | null>(() => storeResultImageUrl);
 
-  const imageUrl = generation?.result_image_url ?? storeResultImageUrl;
+  const imageUrl = generation?.result_image_url ?? capturedImageUrl;
 
   useEffect(() => {
     if (!id || id === 'new') {

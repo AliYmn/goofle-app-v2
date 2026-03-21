@@ -23,10 +23,10 @@ serve(async (req) => {
       });
     }
 
-    const { contentId, contentType, reason } = await req.json();
-    if (!contentId || !contentType || !reason) {
+    const { targetId, targetType, reason } = await req.json();
+    if (!targetId || !targetType || !reason) {
       return new Response(
-        JSON.stringify({ error: "contentId, contentType, reason required" }),
+        JSON.stringify({ error: "targetId, targetType, reason required" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
@@ -43,13 +43,13 @@ serve(async (req) => {
 
     const adminClient = createClient(supabaseUrl, serviceRoleKey);
 
-    // Prevent duplicate reports from same user for same content
+    // Prevent duplicate reports from same user for same target
     const { data: existing } = await adminClient
-      .from("content_reports")
+      .from("reports")
       .select("id")
       .eq("reporter_id", user.id)
-      .eq("content_id", contentId)
-      .eq("content_type", contentType)
+      .eq("target_id", targetId)
+      .eq("target_type", targetType)
       .maybeSingle();
 
     if (existing) {
@@ -58,12 +58,11 @@ serve(async (req) => {
       });
     }
 
-    await adminClient.from("content_reports").insert({
+    await adminClient.from("reports").insert({
       reporter_id: user.id,
-      content_id: contentId,
-      content_type: contentType,
+      target_id: targetId,
+      target_type: targetType,
       reason,
-      status: "pending",
     });
 
     return new Response(

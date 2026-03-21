@@ -100,7 +100,17 @@ _Son smoke test: `expo export --platform ios` → exit 0 ✅ (Mar 21, 2026)_
 - [x] send-push-notification, send-email (Resend)
 - [x] check-streaks, sync-leaderboard, generate-mod-thumbnail
 
-_Son smoke test: `expo export --platform ios` → exit 0 ✅ (Mar 21, 2026)_
+- [x] i18n audit: tüm key'ler mevcut (credits.shareBonus, pro.*, common.back ...)
+- [x] EXPO_PUBLIC_EAS_PROJECT_ID .env.example'a eklendi
+- [x] Schema fix: check-streaks → users tablosunu kullanacak şekilde düzeltildi
+- [x] Schema fix: report-content → reports tablosu + doğru kolon isimleri
+- [x] Migration 006: credit_transactions.reference_id + add_credits RPC güncellendi
+- [x] CreditTransactionRow type'a reference_id eklendi
+- [x] pro.tsx: purchasePackage return değeri kontrolü düzeltildi
+- [x] leaderboard.tsx period_start: ISO timestamp → YYYY-MM-DD (DATE kolon uyumu)
+- [x] leaderboard.tsx: .gte → .eq (period_start exact match)
+- [x] sync-leaderboard getPeriodStart: ISO timestamp → YYYY-MM-DD
+- [x] Son iOS smoke test → exit 0 ✅ (Mar 21, 2026)
 
 ### Önemli — Eksik Özellikler
 - [ ] collection/\[id\].tsx — koleksiyon detay ekranı (stub mevcut, MVP için yeterli)

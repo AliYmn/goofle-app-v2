@@ -21,11 +21,12 @@ export default function ProScreen() {
     haptic.generate();
     setIsLoading(true);
     try {
-      await purchasePackage(selectedPlan);
-    } catch (e: any) {
-      if (e?.message !== 'Purchase cancelled') {
-        Alert.alert('Hata', e?.message ?? 'Satın alma işlemi başarısız.');
+      const result = await purchasePackage(selectedPlan);
+      if (!result.success && result.error) {
+        Alert.alert('Hata', result.error);
       }
+    } catch {
+      Alert.alert('Hata', 'Satın alma işlemi başarısız.');
     } finally {
       setIsLoading(false);
     }

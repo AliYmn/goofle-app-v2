@@ -108,6 +108,7 @@ export type CreditTransactionRow = {
   amount: number;
   type: 'signup_bonus' | 'daily_login' | 'pro_daily_bonus' | 'share_bonus' | 'purchase' | 'generation' | 'onboarding_free' | 'challenge_bonus' | 'refund';
   description: string | null;
+  reference_id: string | null;
   created_at: string;
 };
 export type CreditTransactionInsert = Omit<CreditTransactionRow, 'id' | 'created_at'>;

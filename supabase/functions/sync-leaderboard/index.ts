@@ -9,13 +9,14 @@ const corsHeaders = {
 function getPeriodStart(period: string): string {
   const now = new Date();
   if (period === "daily") {
-    return new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString();
+    return now.toISOString().slice(0, 10);
   } else if (period === "weekly") {
     const day = now.getDay();
     const diff = now.getDate() - day + (day === 0 ? -6 : 1);
-    return new Date(now.getFullYear(), now.getMonth(), diff).toISOString();
+    const monday = new Date(now.getFullYear(), now.getMonth(), diff);
+    return monday.toISOString().slice(0, 10);
   } else {
-    return new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-01`;
   }
 }
 
@@ -36,8 +37,6 @@ serve(async (req) => {
       const periodStart = getPeriodStart(period);
 
       for (const category of categories) {
-        let query;
-
         if (category === "most_liked") {
           // Count likes on user's public generations within period
           const { data: rows } = await adminClient

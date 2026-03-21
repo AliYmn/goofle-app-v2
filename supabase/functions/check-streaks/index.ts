@@ -16,15 +16,15 @@ serve(async (req) => {
     const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const adminClient = createClient(supabaseUrl, serviceRoleKey);
 
-    // Find users whose last_activity_date is before yesterday (streak broken)
+    // Find users whose last_generation_date is before yesterday (streak broken)
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
     const yesterdayStr = yesterday.toISOString().slice(0, 10);
 
     const { data: brokenStreaks, error } = await adminClient
-      .from("streaks")
-      .select("user_id")
-      .lt("last_activity_date", yesterdayStr)
+      .from("users")
+      .select("id")
+      .lt("last_generation_date", yesterdayStr)
       .gt("current_streak", 0);
 
     if (error) throw error;
@@ -36,12 +36,12 @@ serve(async (req) => {
       );
     }
 
-    const userIds = brokenStreaks.map((r: { user_id: string }) => r.user_id);
+    const userIds = brokenStreaks.map((r: { id: string }) => r.id);
 
     const { error: updateError } = await adminClient
-      .from("streaks")
+      .from("users")
       .update({ current_streak: 0 })
-      .in("user_id", userIds);
+      .in("id", userIds);
 
     if (updateError) throw updateError;
 

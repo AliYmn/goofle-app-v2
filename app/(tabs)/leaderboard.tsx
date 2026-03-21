@@ -44,13 +44,14 @@ export default function LeaderboardScreen() {
     const now = new Date();
     let periodStart: string;
     if (p === 'daily') {
-      periodStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString();
+      periodStart = now.toISOString().slice(0, 10);
     } else if (p === 'weekly') {
       const day = now.getDay();
       const diff = now.getDate() - day + (day === 0 ? -6 : 1);
-      periodStart = new Date(now.getFullYear(), now.getMonth(), diff).toISOString();
+      const monday = new Date(now.getFullYear(), now.getMonth(), diff);
+      periodStart = monday.toISOString().slice(0, 10);
     } else {
-      periodStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+      periodStart = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-01`;
     }
 
     const { data } = await supabase
@@ -58,7 +59,7 @@ export default function LeaderboardScreen() {
       .select('id, score, user_id, users(username, avatar_url)')
       .eq('period_type', p)
       .eq('ranking_category', c)
-      .gte('period_start', periodStart)
+      .eq('period_start', periodStart)
       .order('score', { ascending: false })
       .limit(50);
 

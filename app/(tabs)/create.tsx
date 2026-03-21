@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { View, Text, ScrollView, Pressable, Alert, TextInput } from 'react-native';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
@@ -67,12 +68,12 @@ export default function CreateScreen() {
     });
   };
 
-  const handleGenerationComplete = () => {
-    if (resultImageUrl) {
-      router.push(`/generation/new`);
+  useEffect(() => {
+    if (status === 'completed') {
+      router.push('/generation/new');
+      reset();
     }
-    reset();
-  };
+  }, [status]);
 
   return (
     <View style={{ paddingTop: insets.top }} className="flex-1 bg-[#F5F5F5] dark:bg-black">
