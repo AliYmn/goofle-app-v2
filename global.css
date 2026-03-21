@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --surface-primary: theme('colors.off-white');
+    --surface-secondary: theme('colors.white');
+    --surface-elevated: theme('colors.white');
+    --text-primary: theme('colors.black');
+    --text-secondary: theme('colors.dark');
+    --text-muted: #8A8A8A;
+  }
+
+  .dark {
+    --surface-primary: theme('colors.black');
+    --surface-secondary: theme('colors.dark');
+    --surface-elevated: #363636;
+    --text-primary: theme('colors.white');
+    --text-secondary: theme('colors.off-white');
+    --text-muted: #8A8A8A;
+  }
+}

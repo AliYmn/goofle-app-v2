@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <clipPath id="roundedIcon3">
+      <rect width="1024" height="1024" rx="224" ry="224"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#roundedIcon3)">
+    <rect width="1024" height="1024" fill="#FFFFFF"/>
+
+    <g transform="translate(512, 430)">
+      <rect x="-75" y="80" width="150" height="100" rx="40" fill="#1A1A1A"/>
+      <rect x="-105" y="90" width="28" height="80" rx="14" fill="#1A1A1A" transform="rotate(12, -91, 90)"/>
+      <rect x="77" y="70" width="28" height="80" rx="14" fill="#1A1A1A" transform="rotate(-30, 91, 70)"/>
+      <g transform="translate(115, 28) rotate(-15)">
+        <circle cx="0" cy="0" r="18" fill="#1A1A1A"/>
+        <rect x="-5" y="-42" width="8" height="30" rx="4" fill="#1A1A1A"/>
+        <rect x="6" y="-44" width="8" height="32" rx="4" fill="#1A1A1A" transform="rotate(12, 10, -28)"/>
+      </g>
+      <g transform="translate(-120, 140)">
+        <rect x="10" y="-10" width="22" height="12" rx="4" fill="#FF5C5C" opacity="0.7"/>
+        <rect x="0" y="0" width="52" height="40" rx="8" fill="#FF5C5C"/>
+        <circle cx="26" cy="20" r="12" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="3"/>
+        <circle cx="42" cy="8" r="4" fill="#BFFF00"/>
+      </g>
+      <circle cx="0" cy="0" r="130" fill="#1A1A1A"/>
+      <g transform="translate(0, -8)">
+        <rect x="-80" y="-28" width="72" height="56" rx="12" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="3"/>
+        <circle cx="-44" cy="8" r="12" fill="#1A1A1A"/>
+        <circle cx="-44" cy="8" r="5" fill="#FFFFFF"/>
+        <rect x="-8" y="-4" width="16" height="8" rx="4" fill="#1A1A1A"/>
+        <rect x="8" y="-28" width="72" height="56" rx="12" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="3"/>
+        <path d="M28,12 Q44,22 60,10" fill="none" stroke="#1A1A1A" stroke-width="4.5" stroke-linecap="round"/>
+      </g>
+      <path d="M-30,60 Q0,82 35,62 Q42,58 48,64" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+    </g>
+
+    <g transform="translate(512, 770)">
+      <text x="0" y="0" text-anchor="middle" font-family="Arial Black, Arial, Helvetica, sans-serif" font-weight="900" font-size="88" fill="#1A1A1A" letter-spacing="-2">gooflo</text>
+      <text x="185" y="0" text-anchor="middle" font-family="Arial Black, Arial, Helvetica, sans-serif" font-weight="900" font-size="88" fill="#FF5C5C">.</text>
+    </g>
+  </g>
+</svg>

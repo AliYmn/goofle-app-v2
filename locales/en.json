@@ -1,0 +1,262 @@
+{
+  "common": {
+    "continue": "Continue",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "back": "Back",
+    "close": "Close",
+    "retry": "Try Again",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "or": "or"
+  },
+  "auth": {
+    "signInWithApple": "Continue with Apple",
+    "signInWithGoogle": "Continue with Google",
+    "signInWithEmail": "Sign in with Email",
+    "signUp": "Sign Up",
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot Password",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "emailPlaceholder": "email@example.com",
+    "passwordPlaceholder": "At least 8 characters",
+    "verifyEmail": "Verify Your Email",
+    "verifyEmailMessage": "We sent a verification link to {{email}}.",
+    "privacyNotice": "By continuing, you agree to our Privacy Policy and Terms of Service."
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "Welcome to gooflo!",
+      "subtitle": "Transform your selfies with AI, endlessly.",
+      "cta": "Get Started"
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "step1Title": "Take a Selfie",
+      "step1Body": "Take a photo with your camera or pick one from your gallery.",
+      "step2Title": "Choose a Mod",
+      "step2Body": "Pick from hundreds of AI mods — anime, medieval, cyberpunk, and more.",
+      "step3Title": "Generate & Share",
+      "step3Body": "See your transformation in seconds and share it with the community.",
+      "cta": "Got It"
+    },
+    "firstGenerate": {
+      "title": "Your First Generation is Free!",
+      "subtitle": "Pick a mod and try it now.",
+      "cta": "Let's Go"
+    }
+  },
+  "tabs": {
+    "feed": "Feed",
+    "explore": "Mods",
+    "create": "Create",
+    "leaderboard": "Ranks",
+    "profile": "Profile"
+  },
+  "feed": {
+    "title": "Community",
+    "empty": {
+      "title": "No Posts Yet",
+      "body": "Be the first to post in the community!",
+      "cta": "Create Now"
+    },
+    "tryThis": "Try This →",
+    "like": "Like",
+    "share": "Share"
+  },
+  "create": {
+    "title": "Create",
+    "selectPhoto": "Take a selfie or upload",
+    "camera": "Camera",
+    "gallery": "Gallery",
+    "selectMod": "Select a Mod",
+    "changeMod": "Change",
+    "customizePrompt": "Customize",
+    "generate": "Generate",
+    "creditCost": "This generation: {{cost}} credit · Balance: {{balance}}",
+    "generating": "Generating...",
+    "generatingMessages": [
+      "Analyzing your face...",
+      "AI model is working...",
+      "Adding final touches...",
+      "Almost ready..."
+    ]
+  },
+  "generation": {
+    "result": "Result",
+    "regenerate": "Regenerate",
+    "addToCollection": "Add to Collection",
+    "share": "Share",
+    "makePublic": "Make Public",
+    "makePrivate": "Make Private",
+    "aiDisclosure": "Generated with AI"
+  },
+  "credits": {
+    "balance": "{{count}} Credits",
+    "insufficient": {
+      "title": "Not Enough Credits",
+      "body": "This generation requires {{required}} credits. Buy more credits or go Pro.",
+      "buyCredits": "Buy Credits",
+      "goPro": "Go Pro"
+    },
+    "dailyLogin": "You earned +{{count}} daily login credits!",
+    "shareBonus": "+{{count}} share bonus!"
+  },
+  "mods": {
+    "title": "Mods",
+    "trending": "Trending",
+    "new": "New",
+    "topLiked": "Top Liked",
+    "official": "Official",
+    "community": "Community",
+    "premium": "Premium",
+    "usage": "{{count}} uses",
+    "likes": "{{count}} likes",
+    "tryThis": "Try This Mod",
+    "createMod": "Create Mod",
+    "empty": {
+      "title": "No Mods Found",
+      "body": "No mods match your search criteria.",
+      "cta": "Clear Filters"
+    }
+  },
+  "leaderboard": {
+    "title": "Leaderboard",
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly",
+    "mostUsedMods": "Most Used",
+    "longestStreak": "Longest Streak",
+    "mostLiked": "Most Liked"
+  },
+  "profile": {
+    "title": "Profile",
+    "editProfile": "Edit Profile",
+    "creations": "Creations",
+    "collections": "Collections",
+    "myMods": "My Mods",
+    "streak": "{{count}} day streak",
+    "topStreak": "Best: {{count}} days"
+  },
+  "settings": {
+    "title": "Settings",
+    "account": "Account",
+    "appearance": "Appearance",
+    "notifications": "Notifications",
+    "privacy": "Privacy",
+    "subscription": "Subscription",
+    "about": "About",
+    "theme": {
+      "system": "System",
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "language": "Language",
+    "restorePurchases": "Restore Purchases",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "support": "Support",
+    "deleteAccount": {
+      "title": "Delete Account",
+      "warning": "This action cannot be undone. All your data will be permanently deleted.",
+      "confirmText": "Type DELETE to confirm",
+      "placeholder": "DELETE",
+      "confirm": "Permanently Delete Account"
+    }
+  },
+  "errors": {
+    "validation": {
+      "required": "These fields are required.",
+      "invalidEmail": "Enter a valid email address.",
+      "shortPassword": "Password must be at least 8 characters.",
+      "usernameTaken": "This username is already taken."
+    },
+    "noConnection": {
+      "title": "No Connection",
+      "body": "Check your internet connection and try again.",
+      "cta": "Try Again"
+    },
+    "serverError": {
+      "title": "Something Went Wrong",
+      "body": "Our servers are having issues. Please try again in a moment.",
+      "cta": "Try Again"
+    },
+    "unauthorized": {
+      "title": "Session Expired",
+      "body": "Please sign in again.",
+      "cta": "Sign In"
+    },
+    "notFound": {
+      "title": "Not Found",
+      "body": "The content you're looking for couldn't be found or may have been removed.",
+      "cta": "Go Home"
+    },
+    "rateLimit": {
+      "title": "Too Many Requests",
+      "body": "Please wait a moment and try again.",
+      "cta": "Try Again"
+    },
+    "generationFailed": {
+      "title": "Generation Failed",
+      "body": "There was an error processing your photo. Your credits have been refunded.",
+      "cta": "Try Again"
+    },
+    "premiumRequired": {
+      "title": "Pro Feature",
+      "body": "This feature is exclusive to Gooflo Pro members.",
+      "cta": "Go Pro"
+    }
+  },
+  "permissions": {
+    "camera": {
+      "title": "Camera Access",
+      "body": "We need camera access to take your selfie.",
+      "cta": "Allow Access"
+    },
+    "photoLibrary": {
+      "title": "Photo Library",
+      "body": "We need photo library access to pick a photo.",
+      "cta": "Allow Access"
+    },
+    "notifications": {
+      "title": "Notifications",
+      "body": "Allow notifications for daily reminders and streak alerts.",
+      "cta": "Enable Notifications"
+    },
+    "denied": "You can enable this in Settings.",
+    "openSettings": "Open Settings"
+  },
+  "pro": {
+    "title": "Gooflo Pro",
+    "subtitle": "Unlimited generations, premium mods, and much more.",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "save": "Save {{percent}}%",
+    "benefits": [
+      "Unlimited AI generations",
+      "Access to all premium mods",
+      "Daily +5 bonus credits",
+      "50% off credit costs",
+      "Priority generation queue"
+    ],
+    "subscribe": "Go Pro",
+    "alreadyPro": "You're Pro! 🎉"
+  },
+  "maintenance": {
+    "title": "Under Maintenance",
+    "body": "We're preparing a better experience for you. Come back soon!",
+    "estimatedTime": "Estimated time: {{time}}"
+  },
+  "update": {
+    "title": "Update Required",
+    "body": "You need to update the app to continue.",
+    "cta": "Update Now"
+  }
+}

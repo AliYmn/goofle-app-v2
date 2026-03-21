@@ -1,0 +1,262 @@
+{
+  "common": {
+    "continue": "Devam Et",
+    "cancel": "İptal",
+    "save": "Kaydet",
+    "delete": "Sil",
+    "confirm": "Onayla",
+    "back": "Geri",
+    "close": "Kapat",
+    "retry": "Tekrar Dene",
+    "loading": "Yükleniyor...",
+    "error": "Hata",
+    "success": "Başarılı",
+    "or": "veya"
+  },
+  "auth": {
+    "signInWithApple": "Apple ile Devam Et",
+    "signInWithGoogle": "Google ile Devam Et",
+    "signInWithEmail": "Email ile Giriş Yap",
+    "signUp": "Kayıt Ol",
+    "signIn": "Giriş Yap",
+    "signOut": "Çıkış Yap",
+    "email": "Email",
+    "password": "Şifre",
+    "forgotPassword": "Şifremi Unuttum",
+    "noAccount": "Hesabın yok mu?",
+    "hasAccount": "Zaten hesabın var mı?",
+    "emailPlaceholder": "email@ornek.com",
+    "passwordPlaceholder": "En az 8 karakter",
+    "verifyEmail": "Emailini Doğrula",
+    "verifyEmailMessage": "{{email}} adresine doğrulama linki gönderdik.",
+    "privacyNotice": "Devam ederek Gizlilik Politikamızı ve Kullanım Şartlarımızı kabul etmiş olursunuz."
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "gooflo'ya hoş geldin!",
+      "subtitle": "Selfie'lerini AI ile sınırsız dönüştür.",
+      "cta": "Başla"
+    },
+    "howItWorks": {
+      "title": "Nasıl Çalışır?",
+      "step1Title": "Selfie Çek",
+      "step1Body": "Kamerandan bir fotoğraf çek veya galerimden seç.",
+      "step2Title": "Mod Seç",
+      "step2Body": "Yüzlerce AI modundan birini seç — anime, ortaçağ, cyberpunk ve daha fazlası.",
+      "step3Title": "Üret & Paylaş",
+      "step3Body": "Birkaç saniyede dönüşümünü gör ve toplulukla paylaş.",
+      "cta": "Anladım"
+    },
+    "firstGenerate": {
+      "title": "İlk Üretimin Ücretsiz!",
+      "subtitle": "Bir mod seç ve hemen dene.",
+      "cta": "Hadi Başlayalım"
+    }
+  },
+  "tabs": {
+    "feed": "Keşfet",
+    "explore": "Modlar",
+    "create": "Üret",
+    "leaderboard": "Sıralama",
+    "profile": "Profil"
+  },
+  "feed": {
+    "title": "Topluluk",
+    "empty": {
+      "title": "Henüz Gönderi Yok",
+      "body": "Topluluğun ilk gönderisini sen ol!",
+      "cta": "Üretim Yap"
+    },
+    "tryThis": "Dene →",
+    "like": "Beğen",
+    "share": "Paylaş"
+  },
+  "create": {
+    "title": "Üret",
+    "selectPhoto": "Selfie çek veya yükle",
+    "camera": "Kamera",
+    "gallery": "Galeri",
+    "selectMod": "Mod Seç",
+    "changeMod": "Değiştir",
+    "customizePrompt": "Özelleştir",
+    "generate": "Üret",
+    "creditCost": "Bu üretim: {{cost}} kredi · Bakiye: {{balance}}",
+    "generating": "Üretiliyor...",
+    "generatingMessages": [
+      "Yüzün analiz ediliyor...",
+      "AI modeli çalışıyor...",
+      "Son rötuşlar yapılıyor...",
+      "Neredeyse hazır..."
+    ]
+  },
+  "generation": {
+    "result": "Sonuç",
+    "regenerate": "Yeniden Üret",
+    "addToCollection": "Koleksiyona Ekle",
+    "share": "Paylaş",
+    "makePublic": "Herkese Göster",
+    "makePrivate": "Gizle",
+    "aiDisclosure": "AI ile üretilmiştir"
+  },
+  "credits": {
+    "balance": "{{count}} Kredi",
+    "insufficient": {
+      "title": "Yeterli Kredin Yok",
+      "body": "Bu üretim için {{required}} kredi gerekiyor. Kredi satın alabilir veya Pro'ya geçebilirsin.",
+      "buyCredits": "Kredi Satın Al",
+      "goPro": "Pro'ya Geç"
+    },
+    "dailyLogin": "+{{count}} günlük giriş kredisi kazandın!",
+    "shareBonus": "+{{count}} paylaşım bonusu!"
+  },
+  "mods": {
+    "title": "Modlar",
+    "trending": "Trend",
+    "new": "Yeni",
+    "topLiked": "En Beğenilen",
+    "official": "Resmi",
+    "community": "Topluluk",
+    "premium": "Premium",
+    "usage": "{{count}} kullanım",
+    "likes": "{{count}} beğeni",
+    "tryThis": "Bu Modu Dene",
+    "createMod": "Mod Oluştur",
+    "empty": {
+      "title": "Mod Bulunamadı",
+      "body": "Arama kriterlerinle eşleşen mod yok.",
+      "cta": "Filtreleri Temizle"
+    }
+  },
+  "leaderboard": {
+    "title": "Sıralama",
+    "daily": "Günlük",
+    "weekly": "Haftalık",
+    "monthly": "Aylık",
+    "mostUsedMods": "En Çok Kullanılan",
+    "longestStreak": "En Uzun Seri",
+    "mostLiked": "En Beğenilen"
+  },
+  "profile": {
+    "title": "Profil",
+    "editProfile": "Profili Düzenle",
+    "creations": "Üretimler",
+    "collections": "Koleksiyonlar",
+    "myMods": "Modlarım",
+    "streak": "{{count}} günlük seri",
+    "topStreak": "En uzun: {{count}} gün"
+  },
+  "settings": {
+    "title": "Ayarlar",
+    "account": "Hesap",
+    "appearance": "Görünüm",
+    "notifications": "Bildirimler",
+    "privacy": "Gizlilik",
+    "subscription": "Abonelik",
+    "about": "Hakkında",
+    "theme": {
+      "system": "Sistem",
+      "light": "Açık",
+      "dark": "Koyu"
+    },
+    "language": "Dil",
+    "restorePurchases": "Satın Almaları Geri Yükle",
+    "privacyPolicy": "Gizlilik Politikası",
+    "termsOfService": "Kullanım Şartları",
+    "support": "Destek",
+    "deleteAccount": {
+      "title": "Hesabı Sil",
+      "warning": "Bu işlem geri alınamaz. Tüm verileriniz kalıcı olarak silinecek.",
+      "confirmText": "Silmek için SİL yazın",
+      "placeholder": "SİL",
+      "confirm": "Hesabı Kalıcı Olarak Sil"
+    }
+  },
+  "errors": {
+    "validation": {
+      "required": "Bu alanlar zorunludur.",
+      "invalidEmail": "Geçerli bir email adresi girin.",
+      "shortPassword": "Şifre en az 8 karakter olmalı.",
+      "usernameTaken": "Bu kullanıcı adı alınmış."
+    },
+    "noConnection": {
+      "title": "Bağlantı Yok",
+      "body": "İnternet bağlantını kontrol et ve tekrar dene.",
+      "cta": "Yeniden Dene"
+    },
+    "serverError": {
+      "title": "Bir Hata Oluştu",
+      "body": "Sunucumuzda bir sorun var. Birazdan tekrar dene.",
+      "cta": "Yeniden Dene"
+    },
+    "unauthorized": {
+      "title": "Oturum Süresi Doldu",
+      "body": "Lütfen tekrar giriş yap.",
+      "cta": "Giriş Yap"
+    },
+    "notFound": {
+      "title": "Bulunamadı",
+      "body": "Aradığın içerik bulunamadı ya da kaldırılmış olabilir.",
+      "cta": "Ana Sayfaya Dön"
+    },
+    "rateLimit": {
+      "title": "Çok Fazla İstek",
+      "body": "Biraz bekle ve tekrar dene.",
+      "cta": "Yeniden Dene"
+    },
+    "generationFailed": {
+      "title": "Üretim Başarısız",
+      "body": "Fotoğrafın işlenirken bir hata oluştu. Kredin iade edildi.",
+      "cta": "Tekrar Dene"
+    },
+    "premiumRequired": {
+      "title": "Pro Özelliği",
+      "body": "Bu özellik Gooflo Pro üyelerine özeldir.",
+      "cta": "Pro'ya Geç"
+    }
+  },
+  "permissions": {
+    "camera": {
+      "title": "Kamera İzni",
+      "body": "Selfie çekebilmen için kameraya erişmemiz gerekiyor.",
+      "cta": "İzin Ver"
+    },
+    "photoLibrary": {
+      "title": "Fotoğraf Kütüphanesi",
+      "body": "Galerinizden fotoğraf seçebilmek için erişim gerekiyor.",
+      "cta": "İzin Ver"
+    },
+    "notifications": {
+      "title": "Bildirimler",
+      "body": "Günlük hatırlatmalar ve streak bildirimleri için izin ver.",
+      "cta": "Bildirimleri Aç"
+    },
+    "denied": "Ayarlardan izin verebilirsin.",
+    "openSettings": "Ayarları Aç"
+  },
+  "pro": {
+    "title": "Gooflo Pro",
+    "subtitle": "Sınırsız üretim, premium modlar ve çok daha fazlası.",
+    "monthly": "Aylık",
+    "yearly": "Yıllık",
+    "save": "%{{percent}} tasarruf",
+    "benefits": [
+      "Sınırsız AI üretimi",
+      "Tüm premium modlara erişim",
+      "Günlük +5 bonus kredi",
+      "%50 indirimli kredi maliyeti",
+      "Öncelikli üretim sırası"
+    ],
+    "subscribe": "Pro'ya Geç",
+    "alreadyPro": "Pro Üyesin! 🎉"
+  },
+  "maintenance": {
+    "title": "Bakım Modu",
+    "body": "Seni daha iyi bir deneyim için hazırlıyoruz. Birazdan geri gel!",
+    "estimatedTime": "Tahmini süre: {{time}}"
+  },
+  "update": {
+    "title": "Güncelleme Gerekli",
+    "body": "Devam etmek için uygulamayı güncellemelisin.",
+    "cta": "Güncelle"
+  }
+}
