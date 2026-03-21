@@ -59,28 +59,26 @@ Tarih: 2026-03-22
 ## P2 -- UX Durumları (spec: 07_ux_states_and_screens.md)
 
 ### Izin Ekranlari (Pre-permission pattern)
-- [ ] **Kamera izni pre-permission** -- sistem dialog'undan once aciklayici ekran, maskot gorseli
-- [ ] **Galeri izni pre-permission** -- ayni pattern
-- [ ] **Bildirim izni pre-permission** -- "Streak'ini kaybetmemen icin hatırlatalım mı?"
-- [ ] **Izin reddedildi ekrani** -- "Ayarlara Git" butonu ile cihaz ayarlarina yonlendirme
+- [x] **Pre-permission component** -- PrePermission.tsx, camera/photoLibrary/notifications destegi
+- [x] **Izin reddedildi ekrani** -- isDenied prop ile "Ayarlara Git" yonlendirme
 
 ### Bakim ve Guncelleme Ekranlari
-- [ ] **Force update ekrani** -- app_config'den minimum_app_version kontrolu, Store'a yonlendirme
-- [ ] **Bakim modu ekrani** -- app_config'den maintenance_mode kontrolu, otomatik retry
+- [x] **Force update ekrani** -- ForceUpdate.tsx + useAppGate hook, app_config kontrolu
+- [x] **Bakim modu ekrani** -- MaintenanceMode.tsx, 30s otomatik retry countdown
 
 ### Hata Ekrani Iyilestirmeleri
-- [ ] **Rate limit (429) countdown** -- geri sayim timer'i ile "Tekrar Dene" butonu
+- [x] **Rate limit (429) countdown** -- ErrorState'e countdown timer, disabled button
 
 ---
 
 ## P3 -- App Store Hazirligi (spec: 06_app_store_checklist.md)
 
-- [ ] **AI ifsa metni** -- uygulama icinde "AI ile uretilmistir" notu (Apple zorunlu)
-- [ ] **Privacy Policy URL** -- hazirlanacak ve Settings'e eklenecek
-- [ ] **Terms of Service URL** -- hazirlanacak ve Settings'e eklenecek
-- [ ] **Support URL** -- hazirlanacak ve Settings'e eklenecek
+- [x] **AI ifsa metni** -- generation detail'da Badge ile "Generated with AI" gosteriliyor
+- [x] **Privacy Policy URL** -- Settings'te mevcut (gooflo.yamapps.com/privacy)
+- [x] **Terms of Service URL** -- Settings'te mevcut (gooflo.yamapps.com/terms)
+- [x] **Support URL** -- Settings'te mevcut (support@gooflo.yamapps.com)
 - [ ] **Deep linking** -- universal links (gooflo.app/mod/[slug], gooflo.app/g/[id]) (spec: 05)
-- [ ] **ATT dialog uygulamasi** -- plugin var ama dialog gosterim akisi dogrulanmali
+- [x] **ATT dialog uygulamasi** -- root layout'ta analytics.init() oncesi ATT request eklendi
 
 ---
 

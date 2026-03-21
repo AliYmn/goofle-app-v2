@@ -1,5 +1,7 @@
+import { useState, useEffect, useRef } from 'react';
 import { View, Text } from 'react-native';
 import { Button } from '@/components/ui/Button';
+import { t } from '@/lib/i18n';
 
 type ErrorType = 'network' | 'server' | 'notFound' | 'rateLimit' | 'generationFailed' | 'premiumRequired';
 
@@ -10,15 +12,16 @@ interface ErrorStateProps {
   cta?: string;
   onCta?: () => void;
   className?: string;
+  rateLimitSeconds?: number;
 }
 
-const errorConfig: Record<ErrorType, { icon: string; title: string; body: string; cta: string }> = {
-  network:          { icon: '📡', title: 'Bağlantı Yok',         body: 'İnternet bağlantını kontrol et.',                cta: 'Yeniden Dene' },
-  server:           { icon: '⚡', title: 'Bir Hata Oluştu',      body: 'Sunucumuzda bir sorun var.',                     cta: 'Yeniden Dene' },
-  notFound:         { icon: '🔍', title: 'Bulunamadı',            body: 'İçerik bulunamadı ya da kaldırılmış.',           cta: 'Ana Sayfaya Dön' },
-  rateLimit:        { icon: '⏱', title: 'Çok Fazla İstek',       body: 'Biraz bekle ve tekrar dene.',                    cta: 'Yeniden Dene' },
-  generationFailed: { icon: '🎨', title: 'Üretim Başarısız',      body: 'Fotoğrafın işlenirken hata oluştu.',             cta: 'Tekrar Dene' },
-  premiumRequired:  { icon: '⭐', title: 'Pro Özelliği',          body: 'Bu özellik Gooflo Pro üyelerine özeldir.',       cta: "Pro'ya Geç" },
+const errorConfig: Record<ErrorType, { icon: string; titleKey: string; bodyKey: string; ctaKey: string }> = {
+  network:          { icon: '📡', titleKey: 'errors.noConnection.title',    bodyKey: 'errors.noConnection.body',    ctaKey: 'errors.noConnection.cta' },
+  server:           { icon: '⚡', titleKey: 'errors.serverError.title',     bodyKey: 'errors.serverError.body',     ctaKey: 'errors.serverError.cta' },
+  notFound:         { icon: '🔍', titleKey: 'errors.notFound.title',        bodyKey: 'errors.notFound.body',        ctaKey: 'errors.notFound.cta' },
+  rateLimit:        { icon: '⏱',  titleKey: 'errors.rateLimit.title',       bodyKey: 'errors.rateLimit.body',       ctaKey: 'errors.rateLimit.cta' },
+  generationFailed: { icon: '🎨', titleKey: 'errors.generationFailed.title', bodyKey: 'errors.generationFailed.body', ctaKey: 'errors.generationFailed.cta' },
+  premiumRequired:  { icon: '⭐', titleKey: 'errors.premiumRequired.title', bodyKey: 'errors.premiumRequired.body', ctaKey: 'errors.premiumRequired.cta' },
 };
 
 export function ErrorState({
@@ -28,24 +31,42 @@ export function ErrorState({
   cta,
   onCta,
   className = '',
+  rateLimitSeconds = 30,
 }: ErrorStateProps) {
   const config = errorConfig[type];
+  const [countdown, setCountdown] = useState(type === 'rateLimit' ? rateLimitSeconds : 0);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    if (type !== 'rateLimit') return;
+    setCountdown(rateLimitSeconds);
+    intervalRef.current = setInterval(() => {
+      setCountdown((prev) => (prev <= 1 ? 0 : prev - 1));
+    }, 1000);
+    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
+  }, [type, rateLimitSeconds]);
+
+  const isRateLimited = type === 'rateLimit' && countdown > 0;
 
   return (
     <View className={`flex-1 items-center justify-center gap-4 px-8 ${className}`}>
       <Text className="text-5xl">{config.icon}</Text>
       <Text className="text-black dark:text-white font-bold text-xl text-center">
-        {title ?? config.title}
+        {title ?? t(config.titleKey)}
       </Text>
       <Text className="text-black/50 dark:text-white/50 text-sm text-center leading-6">
-        {body ?? config.body}
+        {body ?? t(config.bodyKey)}
       </Text>
+      {isRateLimited && (
+        <Text className="text-lime font-bold text-2xl">{countdown}s</Text>
+      )}
       {onCta && (
         <Button
-          label={cta ?? config.cta}
+          label={cta ?? t(config.ctaKey)}
           onPress={onCta}
           variant={type === 'premiumRequired' ? 'primary' : 'outline'}
           size="md"
+          disabled={isRateLimited}
           className="mt-2"
         />
       )}

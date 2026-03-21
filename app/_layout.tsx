@@ -2,9 +2,11 @@ import '../global.css';
 import '@/lib/polyfills';
 import * as Sentry from '@sentry/react-native';
 import { useEffect } from 'react';
+import { Platform } from 'react-native';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Notifications from 'expo-notifications';
+import { requestTrackingPermissionsAsync } from 'expo-tracking-transparency';
 import { StatusBar } from 'expo-status-bar';
 import {
   useFonts,
@@ -24,6 +26,9 @@ import { useSubscriptionStore } from '@/stores/useSubscriptionStore';
 import { initPurchases, identifyCustomer, checkProStatus } from '@/lib/purchases';
 import { analytics } from '@/lib/analytics';
 import { supabase } from '@/lib/supabase';
+import { useAppGate } from '@/hooks/useAppGate';
+import { ForceUpdate } from '@/components/screens/ForceUpdate';
+import { MaintenanceMode } from '@/components/screens/MaintenanceMode';
 
 Sentry.init({
   dsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
@@ -32,7 +37,6 @@ Sentry.init({
 });
 
 initPurchases();
-analytics.init();
 
 SplashScreen.preventAutoHideAsync();
 
@@ -61,6 +65,7 @@ export default Sentry.wrap(function RootLayout() {
   const { colorScheme } = useThemeStore();
   const { initialize, session } = useAuthStore();
   const { setIsPro } = useSubscriptionStore();
+  const { status: gateStatus, recheck } = useAppGate();
 
   useEffect(() => {
     if (!session?.user) return;
@@ -80,7 +85,14 @@ export default Sentry.wrap(function RootLayout() {
   });
 
   useEffect(() => {
-    initialize();
+    const bootstrapApp = async () => {
+      if (Platform.OS === 'ios') {
+        await requestTrackingPermissionsAsync().catch(() => {});
+      }
+      analytics.init();
+      await initialize();
+    };
+    bootstrapApp();
   }, []);
 
   useEffect(() => {
@@ -91,6 +103,26 @@ export default Sentry.wrap(function RootLayout() {
 
   if (!fontsLoaded && !fontError) {
     return null;
+  }
+
+  if (gateStatus === 'force-update') {
+    return (
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <SafeAreaProvider>
+          <ForceUpdate />
+        </SafeAreaProvider>
+      </GestureHandlerRootView>
+    );
+  }
+
+  if (gateStatus === 'maintenance') {
+    return (
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <SafeAreaProvider>
+          <MaintenanceMode onRetry={recheck} />
+        </SafeAreaProvider>
+      </GestureHandlerRootView>
+    );
   }
 
   return (
@@ -108,6 +140,10 @@ export default Sentry.wrap(function RootLayout() {
             <Stack.Screen name="collection/[id]" />
             <Stack.Screen name="settings" />
             <Stack.Screen name="prompt-library" />
+            <Stack.Screen name="edit-profile" options={{ presentation: 'modal' }} />
+            <Stack.Screen name="transaction-history" />
+            <Stack.Screen name="daily-challenge" />
+            <Stack.Screen name="create-mod" options={{ presentation: 'modal' }} />
             <Stack.Screen name="pro" options={{ presentation: 'modal' }} />
           </Stack>
         </ToastProvider>

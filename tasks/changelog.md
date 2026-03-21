@@ -31,6 +31,15 @@
 
 **Why:** Users trying to log in with email were being sent into account creation, which incorrectly triggered the verify-email screen and made the auth flow look broken.
 
+## 2026-03-22 -- Onboarding artwork fix
+
+**What changed:**
+- Added `components/ui/OnboardingArtwork.tsx` for deterministic local onboarding visuals
+- Updated `app/(onboarding)/how-it-works.tsx` to use a real local artwork block above the step list
+- Updated `app/(onboarding)/first-generate.tsx` to replace the emoji placeholder with a local launch artwork
+
+**Why:** The post-splash onboarding screens did not actually render image assets, only emoji placeholders, which made the UI look like visuals were failing to load.
+
 ## 2026-03-22 -- P1 core features implementation
 
 **What changed:**
@@ -41,3 +50,16 @@
 - TR/EN translations for all new features
 
 **Why:** Implementing remaining P1 features from project spec to reach MVP completeness.
+
+## 2026-03-22 -- P2 UX states and P3 App Store readiness
+
+**What changed:**
+- PrePermission component (camera, gallery, notifications) with denied state redirect
+- ForceUpdate screen + MaintenanceMode screen with auto-retry countdown
+- useAppGate hook checking app_config for minimum_version and maintenance_mode
+- Root layout gate: blocks app if force-update or maintenance needed
+- ErrorState upgraded with i18n keys and rate-limit countdown timer
+- ATT dialog (expo-tracking-transparency) moved before analytics.init() in root layout
+- New routes registered in Stack: edit-profile, transaction-history, daily-challenge, create-mod
+
+**Why:** UX polish for edge cases (permissions, maintenance, force update, rate limiting) and Apple App Store compliance (ATT before analytics).
