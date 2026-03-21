@@ -77,18 +77,18 @@ Tarih: 2026-03-22
 - [x] **Privacy Policy URL** -- Settings'te mevcut (gooflo.yamapps.com/privacy)
 - [x] **Terms of Service URL** -- Settings'te mevcut (gooflo.yamapps.com/terms)
 - [x] **Support URL** -- Settings'te mevcut (support@gooflo.yamapps.com)
-- [ ] **Deep linking** -- universal links (gooflo.app/mod/[slug], gooflo.app/g/[id]) (spec: 05)
+- [x] **Deep linking** -- iOS associatedDomains + Android intentFilters + Expo Router origin konfigurasyonu
 - [x] **ATT dialog uygulamasi** -- root layout'ta analytics.init() oncesi ATT request eklendi
 
 ---
 
 ## P4 -- Iyilestirmeler
 
-- [ ] **RevenueCat Paywalls** -- mevcut custom paywall yerine RC Paywalls kullanilabilir (spec: 09)
-- [ ] **RevenueCat Customer Center** -- abonelik yonetimi icin (spec: 09)
-- [ ] **NSFW filtre dogrulamasi** -- edge function'da fal.ai ciktisi kontrolu (spec: 05)
-- [ ] **Device fingerprint** -- coklu hesap onleme (spec: 05, abuse onleme)
-- [ ] **Rate limiting** -- edge function'larda istek limiti (spec: 05)
+- [ ] **RevenueCat Paywalls** -- RC dashboard konfigurasyonu sonrasi aktive edilecek
+- [ ] **RevenueCat Customer Center** -- RC dashboard konfigurasyonu sonrasi aktive edilecek
+- [x] **NSFW filtre** -- on-generation-complete'te has_nsfw_concepts kontrolu, fail + kredi iade
+- [x] **Device fingerprint** -- expo-application installationId signup metadata'ya eklendi
+- [x] **Rate limiting** -- create-generation-job'da saatte 10 uretim limiti
 
 ---
 

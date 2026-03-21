@@ -45,6 +45,36 @@ serve(async (req) => {
     if (status === "COMPLETED" && payload?.images?.[0]?.url) {
       const resultImageUrl = payload.images[0].url;
 
+      // NSFW check: fal.ai returns has_nsfw_concepts flag
+      const isNsfw = payload.has_nsfw_concepts?.[0] === true
+        || payload.nsfw_content_detected === true;
+
+      if (isNsfw) {
+        await supabase
+          .from("generations")
+          .update({ status: "failed" })
+          .eq("id", generation.id);
+
+        const { data: mod } = await supabase
+          .from("mods")
+          .select("credit_cost")
+          .eq("id", generation.mod_id)
+          .single();
+
+        if (mod) {
+          await supabase.rpc("add_credits", {
+            p_user_id: generation.user_id,
+            p_amount: mod.credit_cost,
+            p_type: "refund",
+            p_description: "NSFW icerik tespit edildi -- kredi iadesi",
+          });
+        }
+
+        return new Response(JSON.stringify({ ok: true, nsfw: true }), {
+          status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
       await supabase
         .from("generations")
         .update({

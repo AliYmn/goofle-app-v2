@@ -25,6 +25,9 @@
         "ITSAppUsesNonExemptEncryption": false
       },
       "usesAppleSignIn": true,
+      "associatedDomains": [
+        "applinks:gooflo.yamapps.com"
+      ],
       "entitlements": {
         "com.apple.developer.applesignin": [
           "Default"
@@ -44,6 +47,30 @@
         "android.permission.WRITE_EXTERNAL_STORAGE",
         "com.google.android.gms.permission.AD_ID",
         "android.permission.RECORD_AUDIO"
+      ],
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "https",
+              "host": "gooflo.yamapps.com",
+              "pathPrefix": "/mod/"
+            },
+            {
+              "scheme": "https",
+              "host": "gooflo.yamapps.com",
+              "pathPrefix": "/g/"
+            },
+            {
+              "scheme": "https",
+              "host": "gooflo.yamapps.com",
+              "pathPrefix": "/collection/"
+            }
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
       ]
     },
     "web": {
@@ -100,7 +127,7 @@
         "projectId": "da69fbb0-5f3c-44a2-9c6e-a72536ce0a49"
       },
       "router": {
-        "origin": false
+        "origin": "https://gooflo.yamapps.com"
       }
     },
     "owner": "aliymn44"

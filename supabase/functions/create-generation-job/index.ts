@@ -35,6 +35,20 @@ serve(async (req) => {
       });
     }
 
+    // Rate limit: max 10 generations per hour per user
+    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
+    const { count: recentCount } = await supabase
+      .from("generations")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", user.id)
+      .gte("created_at", oneHourAgo);
+
+    if ((recentCount ?? 0) >= 10) {
+      return new Response(JSON.stringify({ error: "Rate limit exceeded. Try again later." }), {
+        status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     const body = await req.json();
     const { mod_id, source_image_url, custom_prompt } = body;
 

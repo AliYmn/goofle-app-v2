@@ -60,6 +60,17 @@
 
 **Why:** Implementing remaining P1 features from project spec to reach MVP completeness.
 
+## 2026-03-22 -- P4 improvements: deep linking, NSFW, rate limiting, device fingerprint
+
+**What changed:**
+- Deep linking: iOS associatedDomains, Android intentFilters, Expo Router origin set
+- NSFW filter: on-generation-complete checks has_nsfw_concepts, fails + refunds if detected
+- Rate limiting: create-generation-job limits to 10 generations/hour per user
+- Device fingerprint: expo-application installationId sent in signup metadata
+- Pro screen checkmark emoji replaced with Ionicons
+
+**Why:** Security hardening and platform compliance before production launch.
+
 ## 2026-03-22 -- P2 UX states and P3 App Store readiness
 
 **What changed:**

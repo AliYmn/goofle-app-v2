@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { View, Text, Pressable, ScrollView, Alert } from 'react-native';
 import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { useSubscriptionStore } from '@/stores/useSubscriptionStore';
@@ -56,7 +57,7 @@ export default function ProScreen() {
           {BENEFITS.map((benefit, i) => (
             <View key={i} className="flex-row items-center gap-3">
               <View className="w-6 h-6 rounded-full bg-[#BFFF00]/10 items-center justify-center">
-                <Text className="text-[#BFFF00] text-xs font-bold">✓</Text>
+                <Ionicons name="checkmark" size={14} color="#BFFF00" />
               </View>
               <Text className="text-white font-medium text-base flex-1">{benefit}</Text>
             </View>

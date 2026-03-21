@@ -1,4 +1,5 @@
 import { supabase } from '@/lib/supabase';
+import * as Application from 'expo-application';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import {
   GoogleSignin,
@@ -78,11 +79,16 @@ export async function signUpWithEmail(
   email: string,
   password: string,
 ): Promise<{ error: AuthError | null }> {
+  const installationId = Application.getAndroidId?.() ?? Application.applicationId ?? 'unknown';
+
   const { error } = await supabase.auth.signUp({
     email,
     password,
     options: {
       emailRedirectTo: `gooflo://verify-email`,
+      data: {
+        device_id: installationId,
+      },
     },
   });
   return { error: error ? { message: error.message, code: error.code } : null };
