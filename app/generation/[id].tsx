@@ -6,6 +6,7 @@ import { Image } from 'expo-image';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { useToast } from '@/components/ui/Toast';
+import { Ionicons } from '@expo/vector-icons';
 import { supabase, GenerationRow, CollectionRow } from '@/lib/supabase';
 import { useGenerationStore } from '@/stores/useGenerationStore';
 import { useAuthStore } from '@/stores/useAuthStore';
@@ -155,7 +156,7 @@ export default function GenerationDetailScreen() {
     <View style={{ paddingBottom: insets.bottom + 16 }} className="flex-1 bg-black">
       <View className="flex-row items-center justify-between px-4 pt-4 pb-2">
         <Pressable onPress={() => router.back()} className="w-10 h-10 items-center justify-center">
-          <Text className="text-white text-2xl">✕</Text>
+          <Ionicons name="close" size={28} color="#FFFFFF" />
         </Pressable>
         <Badge label={t('generation.aiDisclosure')} variant="default" size="sm" />
       </View>

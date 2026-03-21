@@ -2,15 +2,18 @@ import { View, Text, Pressable } from 'react-native';
 import { type BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
+import { Ionicons } from '@expo/vector-icons';
 import { haptic } from '@/lib/haptics';
 import { t } from '@/lib/i18n';
 
-const TABS = [
-  { name: '(tabs)/index',      icon: '✦',  activeIcon: '✦',  labelKey: 'tabs.feed' },
-  { name: '(tabs)/explore',    icon: '⊞',  activeIcon: '⊞',  labelKey: 'tabs.explore' },
-  { name: '(tabs)/create',     icon: '+',  activeIcon: '+',  labelKey: 'tabs.create', isCreate: true },
-  { name: '(tabs)/leaderboard',icon: '▲',  activeIcon: '▲',  labelKey: 'tabs.leaderboard' },
-  { name: '(tabs)/profile',    icon: '○',  activeIcon: '●',  labelKey: 'tabs.profile' },
+type IconName = keyof typeof Ionicons.glyphMap;
+
+const TABS: { name: string; icon: IconName; activeIcon: IconName; labelKey: string; isCreate?: boolean }[] = [
+  { name: '(tabs)/index',       icon: 'compass-outline',      activeIcon: 'compass',          labelKey: 'tabs.feed' },
+  { name: '(tabs)/explore',     icon: 'grid-outline',         activeIcon: 'grid',             labelKey: 'tabs.explore' },
+  { name: '(tabs)/create',      icon: 'add',                  activeIcon: 'add',              labelKey: 'tabs.create', isCreate: true },
+  { name: '(tabs)/leaderboard', icon: 'trophy-outline',       activeIcon: 'trophy',           labelKey: 'tabs.leaderboard' },
+  { name: '(tabs)/profile',     icon: 'person-circle-outline', activeIcon: 'person-circle',   labelKey: 'tabs.profile' },
 ];
 
 export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
@@ -42,7 +45,7 @@ export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
                 onPress={onPress}
                 className="w-14 h-14 -mt-4 bg-lime rounded-full items-center justify-center shadow-float"
               >
-                <Text className="text-black text-3xl font-bold leading-none">+</Text>
+                <Ionicons name="add" size={32} color="#1A1A1A" />
               </Pressable>
             </View>
           );
@@ -68,7 +71,7 @@ function TabItem({
   isFocused,
   onPress,
 }: {
-  icon: string;
+  icon: IconName;
   label: string;
   isFocused: boolean;
   onPress: () => void;
@@ -87,7 +90,7 @@ function TabItem({
       className="flex-1 items-center gap-1 py-1"
     >
       <Animated.View style={animStyle}>
-        <Text className={`text-xl ${isFocused ? 'text-lime' : 'text-white/40'}`}>{icon}</Text>
+        <Ionicons name={icon} size={22} color={isFocused ? '#BFFF00' : 'rgba(255,255,255,0.4)'} />
       </Animated.View>
       <Text className={`text-[10px] ${isFocused ? 'text-lime font-semibold' : 'text-white/40'}`}>
         {label}

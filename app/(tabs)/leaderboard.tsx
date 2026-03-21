@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { View, Text, FlatList, Pressable, RefreshControl } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
 import { Avatar } from '@/components/ui/Avatar';
 import { Badge } from '@/components/ui/Badge';
 import { CardSkeleton } from '@/components/ui/Skeleton';
@@ -149,7 +150,7 @@ export default function LeaderboardScreen() {
           )}
           ListEmptyComponent={
             <View className="items-center justify-center py-20 gap-4">
-              <Text className="text-5xl">🏆</Text>
+              <Ionicons name="trophy-outline" size={48} color="rgba(255,255,255,0.3)" />
               <Text className="text-black/40 dark:text-white/40 text-sm text-center">
                 Bu dönemde henüz kayıt yok.
               </Text>

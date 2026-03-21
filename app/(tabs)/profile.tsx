@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/Badge';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { useStreakStore } from '@/stores/useStreakStore';
 import { useSubscriptionStore } from '@/stores/useSubscriptionStore';
+import { Ionicons } from '@expo/vector-icons';
 import { supabase, GenerationRow, CollectionRow } from '@/lib/supabase';
 import { haptic } from '@/lib/haptics';
 import { t } from '@/lib/i18n';
@@ -134,7 +135,7 @@ export default function ProfileScreen() {
       <View className="flex-row items-center justify-between px-4 py-3">
         <Text className="text-black dark:text-white font-bold text-xl">{t('profile.title')}</Text>
         <Pressable onPress={() => router.push('/settings')}>
-          <Text className="text-black/60 dark:text-white/60 text-xl">⚙</Text>
+          <Ionicons name="settings-outline" size={22} color="rgba(128,128,128,0.8)" />
         </Pressable>
       </View>
 
@@ -220,7 +221,7 @@ export default function ProfileScreen() {
             renderItem={({ item }) => <GenerationGridTile item={item} />}
             ListEmptyComponent={
               <View className="items-center justify-center py-20">
-                <Text className="text-4xl mb-3">🎨</Text>
+                <Ionicons name="color-palette-outline" size={40} color="rgba(255,255,255,0.3)" />
                 <Text className="text-black/40 dark:text-white/40 text-sm">Henüz üretim yok</Text>
               </View>
             }
@@ -251,7 +252,7 @@ export default function ProfileScreen() {
               className="mx-4 mb-3 p-4 bg-white dark:bg-[#1C1C1C] rounded-xl flex-row items-center gap-3"
             >
               <View className="w-12 h-12 rounded-lg bg-[#3A3A3A] items-center justify-center">
-                <Text className="text-xl">📁</Text>
+                <Ionicons name="folder-outline" size={24} color="rgba(255,255,255,0.5)" />
               </View>
               <View className="flex-1">
                 <Text className="text-black dark:text-white font-semibold text-base">{item.name}</Text>
@@ -264,7 +265,7 @@ export default function ProfileScreen() {
           )}
           ListEmptyComponent={
             <View className="items-center justify-center py-12">
-              <Text className="text-4xl mb-3">📁</Text>
+              <Ionicons name="folder-open-outline" size={40} color="rgba(255,255,255,0.3)" />
               <Text className="text-black/40 dark:text-white/40 text-sm">{t('collections.emptyState')}</Text>
             </View>
           }
@@ -273,7 +274,7 @@ export default function ProfileScreen() {
         <>
           {header}
           <View className="items-center justify-center flex-1">
-            <Text className="text-4xl mb-3">🛠️</Text>
+            <Ionicons name="build-outline" size={40} color="rgba(255,255,255,0.3)" />
             <Text className="text-black/40 dark:text-white/40 text-sm">{t('collections.comingSoon')}</Text>
           </View>
         </>

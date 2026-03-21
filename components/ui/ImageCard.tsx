@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { View, Text, Pressable, Image as RNImage } from 'react-native';
 import { Image } from 'expo-image';
 import Animated, { useSharedValue, useAnimatedStyle } from 'react-native-reanimated';
+import { Ionicons } from '@expo/vector-icons';
 import { pressIn, pressOut } from '@/lib/animations';
 import { haptic } from '@/lib/haptics';
 import { Avatar } from './Avatar';
@@ -104,9 +105,11 @@ export function ImageCard({
             onPress={handleLike}
             className="flex-row items-center gap-1"
           >
-            <Text className={`text-lg ${isLiked ? '' : 'opacity-50'}`}>
-              {isLiked ? '❤️' : '🤍'}
-            </Text>
+            <Ionicons
+              name={isLiked ? 'heart' : 'heart-outline'}
+              size={20}
+              color={isLiked ? '#FF5C5C' : 'rgba(255,255,255,0.5)'}
+            />
             <Text className="text-white/60 text-xs">{likeCount}</Text>
           </Pressable>
         </View>

@@ -1,7 +1,9 @@
 import { View, Text, Linking } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { Button } from '@/components/ui/Button';
 import { t } from '@/lib/i18n';
 
+type IconName = keyof typeof Ionicons.glyphMap;
 type PermissionType = 'camera' | 'photoLibrary' | 'notifications';
 
 interface PrePermissionProps {
@@ -11,10 +13,10 @@ interface PrePermissionProps {
   isDenied?: boolean;
 }
 
-const permissionConfig: Record<PermissionType, { icon: string }> = {
-  camera:       { icon: '📸' },
-  photoLibrary: { icon: '🖼' },
-  notifications: { icon: '🔔' },
+const permissionConfig: Record<PermissionType, { icon: IconName }> = {
+  camera:        { icon: 'camera-outline' },
+  photoLibrary:  { icon: 'images-outline' },
+  notifications: { icon: 'notifications-outline' },
 };
 
 export function PrePermission({ type, onAllow, onSkip, isDenied = false }: PrePermissionProps) {
@@ -23,7 +25,7 @@ export function PrePermission({ type, onAllow, onSkip, isDenied = false }: PrePe
   if (isDenied) {
     return (
       <View className="flex-1 items-center justify-center gap-4 px-8 bg-[#F5F5F5] dark:bg-black">
-        <Text className="text-5xl">{config.icon}</Text>
+        <Ionicons name={config.icon} size={48} color="#BFFF00" />
         <Text className="text-black dark:text-white font-bold text-xl text-center">
           {t(`permissions.${type}.title`)}
         </Text>

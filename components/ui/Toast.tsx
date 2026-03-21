@@ -1,5 +1,6 @@
 import { createContext, useContext, useRef, useCallback, useState } from 'react';
 import { View, Text } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -26,11 +27,12 @@ const ToastContext = createContext<ToastContextValue>({ show: () => {} });
 
 export const useToast = () => useContext(ToastContext);
 
-const typeConfig: Record<ToastType, { icon: string; bg: string; text: string }> = {
-  success: { icon: '✓', bg: 'bg-success',  text: 'text-black' },
-  error:   { icon: '✕', bg: 'bg-coral',    text: 'text-white' },
-  info:    { icon: 'ℹ', bg: 'bg-info',     text: 'text-white' },
-  warning: { icon: '!', bg: 'bg-warning',  text: 'text-black' },
+type IconName = keyof typeof Ionicons.glyphMap;
+const typeConfig: Record<ToastType, { icon: IconName; iconColor: string; bg: string; text: string }> = {
+  success: { icon: 'checkmark-circle', iconColor: '#1A1A1A', bg: 'bg-success',  text: 'text-black' },
+  error:   { icon: 'close-circle',     iconColor: '#FFFFFF', bg: 'bg-coral',    text: 'text-white' },
+  info:    { icon: 'information-circle', iconColor: '#FFFFFF', bg: 'bg-info',     text: 'text-white' },
+  warning: { icon: 'alert-circle',     iconColor: '#1A1A1A', bg: 'bg-warning',  text: 'text-black' },
 };
 
 export function ToastProvider({ children }: { children: React.ReactNode }) {
@@ -70,7 +72,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
           style={[animStyle, { top: insets.top + 8, position: 'absolute', left: 16, right: 16, zIndex: 9999 }]}
           className={`${config.bg} rounded-xl px-4 py-3 flex-row items-center gap-3 shadow-float`}
         >
-          <Text className={`${config.text} font-bold text-base`}>{config.icon}</Text>
+          <Ionicons name={config.icon} size={20} color={config.iconColor} />
           <Text className={`${config.text} font-medium text-sm flex-1`}>{toast.message}</Text>
         </Animated.View>
       )}

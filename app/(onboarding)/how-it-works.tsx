@@ -1,14 +1,17 @@
 import { View, Text } from 'react-native';
 import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
 import { Button } from '@/components/ui/Button';
 import { OnboardingArtwork } from '@/components/ui/OnboardingArtwork';
 import { t } from '@/lib/i18n';
 
-const STEPS = [
-  { icon: '📸', titleKey: 'onboarding.howItWorks.step1Title', bodyKey: 'onboarding.howItWorks.step1Body' },
-  { icon: '🎨', titleKey: 'onboarding.howItWorks.step2Title', bodyKey: 'onboarding.howItWorks.step2Body' },
-  { icon: '✨', titleKey: 'onboarding.howItWorks.step3Title', bodyKey: 'onboarding.howItWorks.step3Body' },
+type IconName = keyof typeof Ionicons.glyphMap;
+
+const STEPS: { icon: IconName; titleKey: string; bodyKey: string }[] = [
+  { icon: 'camera-outline',      titleKey: 'onboarding.howItWorks.step1Title', bodyKey: 'onboarding.howItWorks.step1Body' },
+  { icon: 'color-wand-outline',  titleKey: 'onboarding.howItWorks.step2Title', bodyKey: 'onboarding.howItWorks.step2Body' },
+  { icon: 'share-social-outline', titleKey: 'onboarding.howItWorks.step3Title', bodyKey: 'onboarding.howItWorks.step3Body' },
 ];
 
 export default function HowItWorksScreen() {
@@ -27,7 +30,7 @@ export default function HowItWorksScreen() {
           {STEPS.map((step, i) => (
             <View key={i} className="flex-row gap-4 items-start">
               <View className="w-12 h-12 rounded-full bg-lime/10 items-center justify-center shrink-0">
-                <Text className="text-2xl">{step.icon}</Text>
+                <Ionicons name={step.icon} size={24} color="#BFFF00" />
               </View>
               <View className="flex-1 gap-1">
                 <Text className="text-white font-bold text-base">{t(step.titleKey)}</Text>

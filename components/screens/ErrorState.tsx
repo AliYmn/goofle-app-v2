@@ -1,7 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { View, Text } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { Button } from '@/components/ui/Button';
 import { t } from '@/lib/i18n';
+
+type IconName = keyof typeof Ionicons.glyphMap;
 
 type ErrorType = 'network' | 'server' | 'notFound' | 'rateLimit' | 'generationFailed' | 'premiumRequired';
 
@@ -15,13 +18,13 @@ interface ErrorStateProps {
   rateLimitSeconds?: number;
 }
 
-const errorConfig: Record<ErrorType, { icon: string; titleKey: string; bodyKey: string; ctaKey: string }> = {
-  network:          { icon: '📡', titleKey: 'errors.noConnection.title',    bodyKey: 'errors.noConnection.body',    ctaKey: 'errors.noConnection.cta' },
-  server:           { icon: '⚡', titleKey: 'errors.serverError.title',     bodyKey: 'errors.serverError.body',     ctaKey: 'errors.serverError.cta' },
-  notFound:         { icon: '🔍', titleKey: 'errors.notFound.title',        bodyKey: 'errors.notFound.body',        ctaKey: 'errors.notFound.cta' },
-  rateLimit:        { icon: '⏱',  titleKey: 'errors.rateLimit.title',       bodyKey: 'errors.rateLimit.body',       ctaKey: 'errors.rateLimit.cta' },
-  generationFailed: { icon: '🎨', titleKey: 'errors.generationFailed.title', bodyKey: 'errors.generationFailed.body', ctaKey: 'errors.generationFailed.cta' },
-  premiumRequired:  { icon: '⭐', titleKey: 'errors.premiumRequired.title', bodyKey: 'errors.premiumRequired.body', ctaKey: 'errors.premiumRequired.cta' },
+const errorConfig: Record<ErrorType, { icon: IconName; titleKey: string; bodyKey: string; ctaKey: string }> = {
+  network:          { icon: 'cloud-offline-outline', titleKey: 'errors.noConnection.title',    bodyKey: 'errors.noConnection.body',    ctaKey: 'errors.noConnection.cta' },
+  server:           { icon: 'warning-outline',       titleKey: 'errors.serverError.title',     bodyKey: 'errors.serverError.body',     ctaKey: 'errors.serverError.cta' },
+  notFound:         { icon: 'search-outline',        titleKey: 'errors.notFound.title',        bodyKey: 'errors.notFound.body',        ctaKey: 'errors.notFound.cta' },
+  rateLimit:        { icon: 'timer-outline',         titleKey: 'errors.rateLimit.title',       bodyKey: 'errors.rateLimit.body',       ctaKey: 'errors.rateLimit.cta' },
+  generationFailed: { icon: 'color-wand-outline',   titleKey: 'errors.generationFailed.title', bodyKey: 'errors.generationFailed.body', ctaKey: 'errors.generationFailed.cta' },
+  premiumRequired:  { icon: 'diamond-outline',      titleKey: 'errors.premiumRequired.title', bodyKey: 'errors.premiumRequired.body', ctaKey: 'errors.premiumRequired.cta' },
 };
 
 export function ErrorState({
@@ -50,7 +53,7 @@ export function ErrorState({
 
   return (
     <View className={`flex-1 items-center justify-center gap-4 px-8 ${className}`}>
-      <Text className="text-5xl">{config.icon}</Text>
+      <Ionicons name={config.icon} size={48} color="#BFFF00" />
       <Text className="text-black dark:text-white font-bold text-xl text-center">
         {title ?? t(config.titleKey)}
       </Text>

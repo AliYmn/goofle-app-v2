@@ -158,7 +158,7 @@ export default function SettingsScreen() {
         <View className="mx-4">
           {!isPro && (
             <SettingsRow
-              label="Gooflo Pro'ya Geç ✨"
+              label="Gooflo Pro'ya Gec"
               isFirst
               isLast={false}
               onPress={() => router.push('/pro')}

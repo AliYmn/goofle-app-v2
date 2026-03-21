@@ -1,5 +1,6 @@
 import { forwardRef, useCallback } from 'react';
 import { View, Text, Pressable } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import GBottomSheet, {
   BottomSheetView,
   BottomSheetBackdrop,
@@ -53,7 +54,7 @@ export const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
                   onPress={onClose}
                   className="w-8 h-8 items-center justify-center rounded-full bg-[#3A3A3A]"
                 >
-                  <Text className="text-white text-lg">✕</Text>
+                  <Ionicons name="close" size={20} color="#FFFFFF" />
                 </Pressable>
               )}
             </View>

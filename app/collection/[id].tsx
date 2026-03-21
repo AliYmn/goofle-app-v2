@@ -3,6 +3,7 @@ import { View, Text, Pressable, FlatList, RefreshControl, Dimensions, Alert, Ima
 import { useLocalSearchParams, router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Image } from 'expo-image';
+import { Ionicons } from '@expo/vector-icons';
 import { supabase, CollectionRow, GenerationRow } from '@/lib/supabase';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { normalizeImageUri, APP_ICON } from '@/lib/images';
@@ -133,7 +134,7 @@ export default function CollectionDetailScreen() {
           renderItem={renderItem}
           ListEmptyComponent={
             <View className="items-center justify-center py-20">
-              <Text className="text-4xl mb-3">📁</Text>
+              <Ionicons name="folder-open-outline" size={40} color="rgba(255,255,255,0.3)" />
               <Text className="text-black/40 dark:text-white/40 text-sm">
                 {t('collections.empty')}
               </Text>

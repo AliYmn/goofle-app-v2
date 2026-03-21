@@ -1,4 +1,5 @@
 import { View, Text, Linking, Platform } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { Button } from '@/components/ui/Button';
 import { t } from '@/lib/i18n';
 
@@ -11,7 +12,7 @@ const STORE_URL = Platform.select({
 export function ForceUpdate() {
   return (
     <View className="flex-1 items-center justify-center gap-4 px-8 bg-[#F5F5F5] dark:bg-black">
-      <Text className="text-5xl">🔄</Text>
+      <Ionicons name="cloud-download-outline" size={48} color="#BFFF00" />
       <Text className="text-black dark:text-white font-bold text-xl text-center">
         {t('update.title')}
       </Text>

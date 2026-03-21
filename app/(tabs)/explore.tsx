@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { View, Text, FlatList, TextInput, Pressable, RefreshControl } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 import { ModCard } from '@/components/ui/ModCard';
 import { Badge } from '@/components/ui/Badge';
 import { EmptyState } from '@/components/screens/EmptyState';
@@ -71,7 +72,7 @@ export default function ExploreScreen() {
         <Text className="text-black dark:text-white font-bold text-2xl">{t('mods.title')}</Text>
 
         <View className="flex-row items-center bg-white dark:bg-[#1C1C1C] rounded-xl px-4 h-11 border border-[#3A3A3A]">
-          <Text className="text-black/40 dark:text-white/40 mr-2">🔍</Text>
+          <Ionicons name="search-outline" size={18} color="rgba(128,128,128,0.6)" style={{ marginRight: 8 }} />
           <TextInput
             className="flex-1 text-black dark:text-white text-sm"
             placeholder="Mod ara..."
@@ -81,7 +82,7 @@ export default function ExploreScreen() {
           />
           {search.length > 0 && (
             <Pressable onPress={() => setSearch('')}>
-              <Text className="text-white/40 text-sm ml-2">✕</Text>
+              <Ionicons name="close-circle" size={16} color="rgba(255,255,255,0.4)" style={{ marginLeft: 8 }} />
             </Pressable>
           )}
         </View>
@@ -140,7 +141,7 @@ export default function ExploreScreen() {
             <EmptyState
               title={t('mods.empty.title')}
               body={t('mods.empty.body')}
-              icon="🎨"
+              icon="color-palette-outline"
             />
           }
         />

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
 import { Button } from '@/components/ui/Button';
 import { useToast } from '@/components/ui/Toast';
 import { supabase, DailyChallengeRow, UserChallengeRow } from '@/lib/supabase';
@@ -95,7 +96,7 @@ export default function DailyChallengeScreen() {
         </View>
       ) : !challenge ? (
         <View className="flex-1 items-center justify-center px-6">
-          <Text className="text-4xl mb-4">🎯</Text>
+          <Ionicons name="flag-outline" size={48} color="rgba(255,255,255,0.3)" />
           <Text className="text-black/40 dark:text-white/40 text-base text-center">
             {t('challenge.noChallenge')}
           </Text>
@@ -104,7 +105,7 @@ export default function DailyChallengeScreen() {
         <View className="px-6 py-8 gap-6">
           <View className="bg-white dark:bg-[#1C1C1C] rounded-2xl p-6 gap-4">
             <View className="items-center">
-              <Text className="text-4xl mb-2">🎯</Text>
+              <Ionicons name="flag" size={40} color="#BFFF00" />
               <Text className="text-black dark:text-white font-bold text-xl text-center">{title}</Text>
               <Text className="text-black/50 dark:text-white/50 text-base text-center mt-2">{description}</Text>
             </View>

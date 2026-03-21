@@ -3,6 +3,7 @@ import { View, Text, Pressable, ScrollView, ActivityIndicator, Image as RNImage 
 import { useLocalSearchParams, router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Image } from 'expo-image';
+import { Ionicons } from '@expo/vector-icons';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { supabase, ModRow } from '@/lib/supabase';
@@ -104,12 +105,14 @@ export default function ModDetailScreen() {
     <View style={{ paddingBottom: insets.bottom + 16 }} className="flex-1 bg-black">
       <View className="flex-row items-center justify-between px-4 pt-4 pb-2">
         <Pressable onPress={() => router.back()} className="w-10 h-10 items-center justify-center">
-          <Text className="text-white text-2xl">✕</Text>
+          <Ionicons name="close" size={28} color="#FFFFFF" />
         </Pressable>
         <Pressable onPress={handleLike} className="w-10 h-10 items-center justify-center">
-          <Text className={`text-2xl ${isLiked ? '' : 'opacity-40'}`}>
-            {isLiked ? '❤️' : '🤍'}
-          </Text>
+          <Ionicons
+            name={isLiked ? 'heart' : 'heart-outline'}
+            size={24}
+            color={isLiked ? '#FF5C5C' : 'rgba(255,255,255,0.4)'}
+          />
         </Pressable>
       </View>
 

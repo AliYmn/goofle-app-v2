@@ -3,6 +3,7 @@ import { View, Text, Pressable, FlatList, RefreshControl, Alert } from 'react-na
 import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as Clipboard from 'expo-clipboard';
+import { Ionicons } from '@expo/vector-icons';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { useToast } from '@/components/ui/Toast';
@@ -33,7 +34,7 @@ function PromptCard({
       <View className="flex-row items-center justify-between">
         <View className="flex-row items-center gap-3">
           <Pressable onPress={() => onVote(item.id)} className="flex-row items-center gap-1">
-            <Text className="text-lime text-sm">▲</Text>
+            <Ionicons name="chevron-up" size={16} color="#BFFF00" />
             <Text className="text-black/50 dark:text-white/50 text-sm font-medium">{item.vote_count}</Text>
           </Pressable>
           <Text className="text-black/30 dark:text-white/30 text-xs">
@@ -180,7 +181,7 @@ export default function PromptLibraryScreen() {
         ListEmptyComponent={
           isLoading ? null : (
             <View className="items-center justify-center py-20 gap-4">
-              <Text className="text-5xl">💡</Text>
+              <Ionicons name="bulb-outline" size={48} color="rgba(255,255,255,0.3)" />
               <Text className="text-black/40 dark:text-white/40 text-sm">{t('promptLibrary.empty')}</Text>
             </View>
           )

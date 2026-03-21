@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { View, Text, ScrollView, Pressable, Alert, TextInput } from 'react-native';
 import { Image } from 'expo-image';
+import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
@@ -105,7 +106,7 @@ export default function CreateScreen() {
             </>
           ) : (
             <View className="items-center gap-4">
-              <Text className="text-5xl">📸</Text>
+              <Ionicons name="camera-outline" size={48} color="rgba(255,255,255,0.3)" />
               <Text className="text-black/40 dark:text-white/40 font-medium text-sm">
                 {t('create.selectPhoto')}
               </Text>
