@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { View, Text, Pressable, FlatList, RefreshControl, Dimensions, Image as RNImage, Alert, TextInput } from 'react-native';
+import { View, Text, Pressable, FlatList, RefreshControl, Dimensions, Image as RNImage, Modal, TextInput } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { Image } from 'expo-image';
@@ -65,6 +65,8 @@ export default function ProfileScreen() {
   const [collections, setCollections] = useState<CollectionRow[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [createModalVisible, setCreateModalVisible] = useState(false);
+  const [newCollectionName, setNewCollectionName] = useState('');
 
   const fetchGenerations = useCallback(async () => {
     if (!session?.user) return;
@@ -100,28 +102,21 @@ export default function ProfileScreen() {
   };
 
   const handleCreateCollection = () => {
-    Alert.prompt(
-      t('collections.createTitle'),
-      t('collections.createDescription'),
-      [
-        { text: t('common.cancel'), style: 'cancel' },
-        {
-          text: t('common.save'),
-          onPress: async (name?: string) => {
-            const trimmed = name?.trim();
-            if (!trimmed || !session?.user) return;
-            await supabase.from('collections').insert({
-              user_id: session.user.id,
-              name: trimmed,
-              cover_image_url: null,
-            });
-            haptic.success();
-            await fetchCollections();
-          },
-        },
-      ],
-      'plain-text',
-    );
+    setNewCollectionName('');
+    setCreateModalVisible(true);
+  };
+
+  const handleConfirmCreateCollection = async () => {
+    const trimmed = newCollectionName.trim();
+    setCreateModalVisible(false);
+    if (!trimmed || !session?.user) return;
+    await supabase.from('collections').insert({
+      user_id: session.user.id,
+      name: trimmed,
+      cover_image_url: null,
+    });
+    haptic.success();
+    await fetchCollections();
   };
 
   const tabLabels: Record<Tab, string> = {
@@ -144,7 +139,7 @@ export default function ProfileScreen() {
         <View className="items-center gap-1">
           <View className="flex-row items-center gap-2">
             <Text className="text-black dark:text-white font-bold text-xl">
-              {user?.username ?? 'Kullanıcı'}
+              {user?.username ?? t('common.user')}
             </Text>
             {isPro && <Badge label="PRO" variant="premium" size="sm" />}
           </View>
@@ -184,9 +179,9 @@ export default function ProfileScreen() {
           <Pressable
             key={tab}
             onPress={() => setActiveTab(tab)}
-            className={`flex-1 py-3 items-center ${activeTab === tab ? 'border-b-2 border-[#BFFF00]' : ''}`}
+            className={`flex-1 py-3 items-center ${activeTab === tab ? 'border-b-2 border-lime' : ''}`}
           >
-            <Text className={`font-semibold text-sm ${activeTab === tab ? 'text-[#BFFF00]' : 'text-black/40 dark:text-white/40'}`}>
+            <Text className={`font-semibold text-sm ${activeTab === tab ? 'text-lime' : 'text-black/40 dark:text-white/40'}`}>
               {tabLabels[tab]}
             </Text>
           </Pressable>
@@ -196,7 +191,7 @@ export default function ProfileScreen() {
   );
 
   return (
-    <View style={{ paddingTop: insets.top }} className="flex-1 bg-[#F5F5F5] dark:bg-black">
+    <View style={{ paddingTop: insets.top }} className="flex-1 bg-[#F2F2F0] dark:bg-black">
       {activeTab === 'creations' ? (
         isLoading ? (
           <>
@@ -209,6 +204,7 @@ export default function ProfileScreen() {
           </>
         ) : (
           <FlatList
+            key="creations-grid"
             data={generations}
             keyExtractor={(item) => item.id}
             numColumns={3}
@@ -222,13 +218,14 @@ export default function ProfileScreen() {
             ListEmptyComponent={
               <View className="items-center justify-center py-20">
                 <Ionicons name="color-palette-outline" size={40} color="rgba(255,255,255,0.3)" />
-                <Text className="text-black/40 dark:text-white/40 text-sm">Henüz üretim yok</Text>
+                <Text className="text-black/40 dark:text-white/40 text-sm">{t('profile.emptyCreations')}</Text>
               </View>
             }
           />
         )
       ) : activeTab === 'collections' ? (
         <FlatList
+          key="collections-list"
           data={collections}
           keyExtractor={(item) => item.id}
           ListHeaderComponent={
@@ -249,7 +246,7 @@ export default function ProfileScreen() {
           renderItem={({ item }) => (
             <Pressable
               onPress={() => router.push(`/collection/${item.id}`)}
-              className="mx-4 mb-3 p-4 bg-white dark:bg-[#1C1C1C] rounded-xl flex-row items-center gap-3"
+              className="mx-4 mb-3 p-4 bg-white dark:bg-dark rounded-xl flex-row items-center gap-3"
             >
               <View className="w-12 h-12 rounded-lg bg-[#3A3A3A] items-center justify-center">
                 <Ionicons name="folder-outline" size={24} color="rgba(255,255,255,0.5)" />
@@ -260,7 +257,7 @@ export default function ProfileScreen() {
                   {new Date(item.created_at).toLocaleDateString()}
                 </Text>
               </View>
-              <Text className="text-black/30 dark:text-white/30 text-lg">›</Text>
+              <Ionicons name="chevron-forward" size={18} color="rgba(255,255,255,0.3)" />
             </Pressable>
           )}
           ListEmptyComponent={
@@ -279,6 +276,46 @@ export default function ProfileScreen() {
           </View>
         </>
       )}
+
+      <Modal
+        visible={createModalVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setCreateModalVisible(false)}
+      >
+        <Pressable
+          className="flex-1 bg-black/70 items-center justify-center px-6"
+          onPress={() => setCreateModalVisible(false)}
+        >
+          <Pressable className="w-full bg-dark rounded-2xl p-6 gap-4">
+            <Text className="text-white font-bold text-lg">{t('collections.createTitle')}</Text>
+            <TextInput
+              value={newCollectionName}
+              onChangeText={setNewCollectionName}
+              placeholder={t('collections.createDescription')}
+              placeholderTextColor="rgba(255,255,255,0.35)"
+              className="bg-black rounded-xl px-4 py-3 text-white"
+              autoFocus
+              returnKeyType="done"
+              onSubmitEditing={handleConfirmCreateCollection}
+            />
+            <View className="flex-row gap-3">
+              <Pressable
+                onPress={() => setCreateModalVisible(false)}
+                className="flex-1 py-3 rounded-xl border border-[#3A3A3A] items-center"
+              >
+                <Text className="text-white/60 font-semibold">{t('common.cancel')}</Text>
+              </Pressable>
+              <Pressable
+                onPress={handleConfirmCreateCollection}
+                className="flex-1 py-3 rounded-xl bg-lime items-center"
+              >
+                <Text className="text-black font-bold">{t('common.save')}</Text>
+              </Pressable>
+            </View>
+          </Pressable>
+        </Pressable>
+      </Modal>
     </View>
   );
 }

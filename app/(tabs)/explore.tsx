@@ -1,11 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
-import { View, Text, FlatList, TextInput, Pressable, RefreshControl } from 'react-native';
+import { View, Text, FlatList, TextInput, Pressable, RefreshControl, useColorScheme } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { ModCard } from '@/components/ui/ModCard';
 import { Badge } from '@/components/ui/Badge';
 import { EmptyState } from '@/components/screens/EmptyState';
+import { ErrorState } from '@/components/screens/ErrorState';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { supabase, ModRow } from '@/lib/supabase';
 import { useGenerationStore } from '@/stores/useGenerationStore';
@@ -25,6 +26,8 @@ export default function ExploreScreen() {
   const [mods, setMods] = useState<ModRow[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const colorScheme = useColorScheme();
 
   const { setSelectedMod } = useGenerationStore();
 
@@ -40,8 +43,13 @@ export default function ExploreScreen() {
       req = req.ilike('name', `%${query.trim()}%`);
     }
 
-    const { data } = await req;
-    setMods(data ?? []);
+    const { data, error } = await req;
+    if (error) {
+      setHasError(true);
+    } else {
+      setHasError(false);
+      setMods(data ?? []);
+    }
   }, [activeFilter, search]);
 
   useEffect(() => {
@@ -67,22 +75,22 @@ export default function ExploreScreen() {
   };
 
   return (
-    <View style={{ paddingTop: insets.top }} className="flex-1 bg-[#F5F5F5] dark:bg-black">
+    <View style={{ paddingTop: insets.top }} className="flex-1 bg-[#F2F2F0] dark:bg-black">
       <View className="px-4 pt-3 pb-2 gap-3">
         <Text className="text-black dark:text-white font-bold text-2xl">{t('mods.title')}</Text>
 
-        <View className="flex-row items-center bg-white dark:bg-[#1C1C1C] rounded-xl px-4 h-11 border border-[#3A3A3A]">
+        <View className="flex-row items-center bg-white dark:bg-dark rounded-xl px-4 h-11 border border-[#3A3A3A]">
           <Ionicons name="search-outline" size={18} color="rgba(128,128,128,0.6)" style={{ marginRight: 8 }} />
           <TextInput
             className="flex-1 text-black dark:text-white text-sm"
-            placeholder="Mod ara..."
+            placeholder={t('mods.searchPlaceholder')}
             placeholderTextColor="#8A8A8A"
             value={search}
             onChangeText={setSearch}
           />
           {search.length > 0 && (
-            <Pressable onPress={() => setSearch('')}>
-              <Ionicons name="close-circle" size={16} color="rgba(255,255,255,0.4)" style={{ marginLeft: 8 }} />
+            <Pressable onPress={() => setSearch('')} className="p-2">
+              <Ionicons name="close-circle" size={16} color={colorScheme === 'dark' ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.35)'} />
             </Pressable>
           )}
         </View>
@@ -112,6 +120,15 @@ export default function ExploreScreen() {
             <Skeleton key={i} className="rounded-2xl" style={{ width: '47%', aspectRatio: 0.8 }} />
           ))}
         </View>
+      ) : hasError ? (
+        <ErrorState
+          type="server"
+          onCta={() => {
+            setHasError(false);
+            setIsLoading(true);
+            fetchMods(activeFilter, search).finally(() => setIsLoading(false));
+          }}
+        />
       ) : (
         <FlatList
           data={mods}

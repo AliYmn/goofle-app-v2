@@ -11,7 +11,8 @@
     "loading": "Yükleniyor...",
     "error": "Hata",
     "success": "Başarılı",
-    "or": "veya"
+    "or": "veya",
+    "user": "Kullanıcı"
   },
   "auth": {
     "signInWithApple": "Apple ile Devam Et",
@@ -99,7 +100,8 @@
     "share": "Paylaş",
     "makePublic": "Herkese Göster",
     "makePrivate": "Gizle",
-    "aiDisclosure": "AI ile üretilmiştir"
+    "aiDisclosure": "AI ile üretilmiştir",
+    "saveFailed": "Ayar kaydedilemedi"
   },
   "credits": {
     "balance": "{{count}} Kredi",
@@ -114,9 +116,13 @@
     "history": "Kredi Gecmisi",
     "emptyHistory": "Henuz islem yok"
   },
+  "streak": {
+    "dayLabel": "gün"
+  },
   "mods": {
     "title": "Modlar",
     "trending": "Trend",
+    "searchPlaceholder": "Mod ara...",
     "new": "Yeni",
     "topLiked": "En Beğenilen",
     "official": "Resmi",
@@ -166,7 +172,8 @@
     "collections": "Koleksiyonlar",
     "myMods": "Modlarım",
     "streak": "{{count}} günlük seri",
-    "topStreak": "En uzun: {{count}} gün"
+    "topStreak": "En uzun: {{count}} gün",
+    "emptyCreations": "Henüz üretim yok"
   },
   "promptLibrary": {
     "title": "Prompt Kutuphanesi",

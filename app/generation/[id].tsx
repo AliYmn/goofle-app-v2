@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { View, Text, Pressable, Share, ActivityIndicator, Switch, Image as RNImage, Alert } from 'react-native';
+import { View, Text, Pressable, Share, ActivityIndicator, Switch, Image as RNImage, Modal, TextInput } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Image } from 'expo-image';
@@ -32,6 +32,8 @@ export default function GenerationDetailScreen() {
   // Capture on mount so the URL survives a store reset while this screen is shown
   const [capturedImageUrl] = useState<string | null>(() => storeResultImageUrl);
   const [hasImageError, setHasImageError] = useState(false);
+  const [createModalVisible, setCreateModalVisible] = useState(false);
+  const [newCollectionName, setNewCollectionName] = useState('');
 
   const imageUrl = generation?.result_image_url ?? capturedImageUrl;
   const resolvedImageUrl = useMemo(() => normalizeImageUri(imageUrl, 'generations'), [imageUrl]);
@@ -86,7 +88,7 @@ export default function GenerationDetailScreen() {
       setIsPublic(value);
       haptic.selection();
     } else {
-      show({ message: 'Ayar kaydedilemedi', type: 'error' });
+      show({ message: t('generation.saveFailed'), type: 'error' });
     }
     setToggling(false);
   };
@@ -105,37 +107,13 @@ export default function GenerationDetailScreen() {
       .order('created_at', { ascending: false });
 
     if (!collections || collections.length === 0) {
-      Alert.prompt(
-        t('collections.createTitle'),
-        t('collections.createDescription'),
-        [
-          { text: t('common.cancel'), style: 'cancel' },
-          {
-            text: t('common.save'),
-            onPress: async (name?: string) => {
-              const trimmed = name?.trim();
-              if (!trimmed) return;
-              const { data: newCol } = await supabase
-                .from('collections')
-                .insert({ user_id: session.user!.id, name: trimmed, cover_image_url: null })
-                .select('id')
-                .single();
-              if (newCol) {
-                await supabase.from('collection_items').insert({
-                  collection_id: newCol.id,
-                  generation_id: generation.id,
-                });
-                haptic.success();
-                show({ message: t('collections.added'), type: 'success' });
-              }
-            },
-          },
-        ],
-        'plain-text',
-      );
+      setNewCollectionName('');
+      setCreateModalVisible(true);
       return;
     }
 
+    // Pick from existing collections via action sheet (works cross-platform)
+    const { Alert } = await import('react-native');
     const buttons = collections.map((col: CollectionRow) => ({
       text: col.name,
       onPress: async () => {
@@ -148,8 +126,27 @@ export default function GenerationDetailScreen() {
       },
     }));
     buttons.push({ text: t('common.cancel'), onPress: () => {} });
-
     Alert.alert(t('collections.selectCollection'), '', buttons);
+  };
+
+  const handleConfirmCreateCollection = async () => {
+    if (!generation || !session?.user) { setCreateModalVisible(false); return; }
+    const trimmed = newCollectionName.trim();
+    setCreateModalVisible(false);
+    if (!trimmed) return;
+    const { data: newCol } = await supabase
+      .from('collections')
+      .insert({ user_id: session.user.id, name: trimmed, cover_image_url: null })
+      .select('id')
+      .single();
+    if (newCol) {
+      await supabase.from('collection_items').insert({
+        collection_id: newCol.id,
+        generation_id: generation.id,
+      });
+      haptic.success();
+      show({ message: t('collections.added'), type: 'success' });
+    }
   };
 
   return (
@@ -162,7 +159,7 @@ export default function GenerationDetailScreen() {
       </View>
 
       <View className="flex-1 px-4">
-        <View className="w-full aspect-square rounded-2xl overflow-hidden bg-[#1C1C1C]">
+        <View className="w-full aspect-square rounded-2xl overflow-hidden bg-dark">
           {isLoading ? (
             <ActivityIndicator color="#BFFF00" style={{ flex: 1 }} />
           ) : resolvedImageUrl && !hasImageError ? (
@@ -223,6 +220,46 @@ export default function GenerationDetailScreen() {
           onPress={handleAddToCollection}
         />
       </View>
+
+      <Modal
+        visible={createModalVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setCreateModalVisible(false)}
+      >
+        <Pressable
+          className="flex-1 bg-black/70 items-center justify-center px-6"
+          onPress={() => setCreateModalVisible(false)}
+        >
+          <Pressable className="w-full bg-dark rounded-2xl p-6 gap-4">
+            <Text className="text-white font-bold text-lg">{t('collections.createTitle')}</Text>
+            <TextInput
+              value={newCollectionName}
+              onChangeText={setNewCollectionName}
+              placeholder={t('collections.createDescription')}
+              placeholderTextColor="rgba(255,255,255,0.35)"
+              className="bg-black rounded-xl px-4 py-3 text-white"
+              autoFocus
+              returnKeyType="done"
+              onSubmitEditing={handleConfirmCreateCollection}
+            />
+            <View className="flex-row gap-3">
+              <Pressable
+                onPress={() => setCreateModalVisible(false)}
+                className="flex-1 py-3 rounded-xl border border-[#3A3A3A] items-center"
+              >
+                <Text className="text-white/60 font-semibold">{t('common.cancel')}</Text>
+              </Pressable>
+              <Pressable
+                onPress={handleConfirmCreateCollection}
+                className="flex-1 py-3 rounded-xl bg-lime items-center"
+              >
+                <Text className="text-black font-bold">{t('common.save')}</Text>
+              </Pressable>
+            </View>
+          </Pressable>
+        </Pressable>
+      </Modal>
     </View>
   );
 }

@@ -11,7 +11,8 @@
     "loading": "Loading...",
     "error": "Error",
     "success": "Success",
-    "or": "or"
+    "or": "or",
+    "user": "User"
   },
   "auth": {
     "signInWithApple": "Continue with Apple",
@@ -99,7 +100,8 @@
     "share": "Share",
     "makePublic": "Make Public",
     "makePrivate": "Make Private",
-    "aiDisclosure": "Generated with AI"
+    "aiDisclosure": "Generated with AI",
+    "saveFailed": "Couldn't save setting"
   },
   "credits": {
     "balance": "{{count}} Credits",
@@ -114,9 +116,13 @@
     "history": "Credit History",
     "emptyHistory": "No transactions yet"
   },
+  "streak": {
+    "dayLabel": "days"
+  },
   "mods": {
     "title": "Mods",
     "trending": "Trending",
+    "searchPlaceholder": "Search mods...",
     "new": "New",
     "topLiked": "Top Liked",
     "official": "Official",
@@ -166,7 +172,8 @@
     "collections": "Collections",
     "myMods": "My Mods",
     "streak": "{{count}} day streak",
-    "topStreak": "Best: {{count}} days"
+    "topStreak": "Best: {{count}} days",
+    "emptyCreations": "No creations yet"
   },
   "promptLibrary": {
     "title": "Prompt Library",

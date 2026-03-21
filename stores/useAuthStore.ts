@@ -104,11 +104,16 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   initialize: async () => {
     set({ isLoading: true });
-    const { data: { session } } = await supabase.auth.getSession();
-    set({ session });
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      set({ session });
 
-    if (session?.user) {
-      await get().fetchUser(session.user.id);
+      if (session?.user) {
+        await get().fetchUser(session.user.id);
+      }
+    } catch (err) {
+      console.error('Auth initialization failed:', err);
+      set({ session: null, user: null });
     }
 
     const handleAuthCallback = async (url: string | null) => {

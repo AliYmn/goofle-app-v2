@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { View, Text } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Button } from '@/components/ui/Button';
 import { t } from '@/lib/i18n';
@@ -27,7 +28,7 @@ export default function VerifyEmailScreen() {
       style={{ paddingTop: insets.top, paddingBottom: insets.bottom + 24 }}
       className="flex-1 bg-black px-6 items-center justify-center gap-6"
     >
-      <Text className="text-6xl">📬</Text>
+      <Ionicons name="mail-outline" size={64} color="#BFFF00" />
       <View className="gap-2 items-center">
         <Text className="text-white font-bold text-2xl text-center">{t('auth.verifyEmail')}</Text>
         <Text className="text-white/50 text-sm text-center leading-6">
