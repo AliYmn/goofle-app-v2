@@ -1,10 +1,12 @@
-import { View, Text, Pressable } from 'react-native';
+import { useEffect, useMemo, useState } from 'react';
+import { View, Text, Pressable, Image as RNImage } from 'react-native';
 import { Image } from 'expo-image';
 import Animated, { useSharedValue, useAnimatedStyle } from 'react-native-reanimated';
 import { pressIn, pressOut } from '@/lib/animations';
 import { haptic } from '@/lib/haptics';
 import { Avatar } from './Avatar';
 import { t } from '@/lib/i18n';
+import { APP_ICON, normalizeImageUri } from '@/lib/images';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
@@ -36,10 +38,16 @@ export function ImageCard({
   onTryMod,
 }: ImageCardProps) {
   const scale = useSharedValue(1);
+  const resolvedImageUrl = useMemo(() => normalizeImageUri(imageUrl, 'generations'), [imageUrl]);
+  const [hasImageError, setHasImageError] = useState(false);
 
   const animStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
   }));
+
+  useEffect(() => {
+    setHasImageError(false);
+  }, [resolvedImageUrl]);
 
   const handleLike = () => {
     haptic.like();
@@ -54,13 +62,23 @@ export function ImageCard({
       onPress={onPress}
       className="mb-4"
     >
-      <Image
-        source={{ uri: imageUrl }}
-        style={{ width: '100%', aspectRatio: 1, borderRadius: 16 }}
-        placeholder={blurhash ? { blurhash } : undefined}
-        transition={300}
-        contentFit="cover"
-      />
+      {resolvedImageUrl && !hasImageError ? (
+        <Image
+          source={{ uri: resolvedImageUrl }}
+          style={{ width: '100%', aspectRatio: 1, borderRadius: 16 }}
+          placeholder={blurhash ? { blurhash } : undefined}
+          transition={300}
+          contentFit="cover"
+          onError={() => setHasImageError(true)}
+        />
+      ) : (
+        <View
+          style={{ width: '100%', aspectRatio: 1, borderRadius: 16 }}
+          className="bg-[#1C1C1C] items-center justify-center overflow-hidden"
+        >
+          <RNImage source={APP_ICON} style={{ width: 72, height: 72, opacity: 0.35 }} resizeMode="contain" />
+        </View>
+      )}
 
       <View className="flex-row items-center justify-between mt-2 px-1">
         <View className="flex-row items-center gap-2">

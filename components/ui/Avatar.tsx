@@ -1,5 +1,7 @@
+import { useEffect, useMemo, useState } from 'react';
 import { View, Text } from 'react-native';
 import { Image } from 'expo-image';
+import { normalizeImageUri } from '@/lib/images';
 
 type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
@@ -27,15 +29,23 @@ const getInitials = (username?: string | null): string => {
 export function Avatar({ uri, username, size = 'md', className = '', showBorder = false }: AvatarProps) {
   const { px, text, container } = sizeMap[size];
   const borderClass = showBorder ? 'border-2 border-lime' : '';
+  const resolvedUri = useMemo(() => normalizeImageUri(uri, 'avatars'), [uri]);
+  const [hasImageError, setHasImageError] = useState(false);
 
-  if (uri) {
+  useEffect(() => {
+    setHasImageError(false);
+  }, [resolvedUri]);
+
+  if (resolvedUri && !hasImageError) {
     return (
       <Image
-        source={{ uri }}
+        source={{ uri: resolvedUri }}
         style={{ width: px, height: px, borderRadius: px / 2 }}
         className={`${borderClass} ${className}`}
         placeholder={{ blurhash: 'L6PZfSi_.AyE_3t7t7R**0o#DgR4' }}
         transition={200}
+        contentFit="cover"
+        onError={() => setHasImageError(true)}
       />
     );
   }

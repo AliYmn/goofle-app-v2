@@ -69,7 +69,7 @@ export default function LoginScreen() {
           variant="ghost"
           size="lg"
           fullWidth
-          onPress={() => router.push('/(auth)/signup')}
+          onPress={() => router.push('/(auth)/email-login')}
         />
 
         <Text className="text-white/30 text-xs text-center">

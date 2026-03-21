@@ -22,7 +22,10 @@
     "signOut": "Çıkış Yap",
     "email": "Email",
     "password": "Şifre",
-    "forgotPassword": "Şifremi Unuttum",
+    "forgotPassword": "Şifremi Unuttum?",
+    "resetDescription": "Email adresini gir, şifre sıfırlama linki gönderelim.",
+    "resetSent": "Şifre sıfırlama linki email adresine gönderildi. Gelen kutunu kontrol et.",
+    "sendResetLink": "Sıfırlama Linki Gönder",
     "noAccount": "Hesabın yok mu?",
     "hasAccount": "Zaten hesabın var mı?",
     "emailPlaceholder": "email@ornek.com",
@@ -107,7 +110,9 @@
       "goPro": "Pro'ya Geç"
     },
     "dailyLogin": "+{{count}} günlük giriş kredisi kazandın!",
-    "shareBonus": "+{{count}} paylaşım bonusu!"
+    "shareBonus": "+{{count}} paylaşım bonusu!",
+    "history": "Kredi Gecmisi",
+    "emptyHistory": "Henuz islem yok"
   },
   "mods": {
     "title": "Modlar",
@@ -139,11 +144,41 @@
   "profile": {
     "title": "Profil",
     "editProfile": "Profili Düzenle",
+    "edit": {
+      "username": "Kullanıcı Adı",
+      "usernamePlaceholder": "Kullanıcı adın",
+      "bio": "Biyografi",
+      "bioPlaceholder": "Kendinden bahset...",
+      "changePhoto": "Fotoğrafı Değiştir",
+      "saved": "Profil kaydedildi"
+    },
     "creations": "Üretimler",
     "collections": "Koleksiyonlar",
     "myMods": "Modlarım",
     "streak": "{{count}} günlük seri",
     "topStreak": "En uzun: {{count}} gün"
+  },
+  "challenge": {
+    "title": "Gunluk Gorev",
+    "noChallenge": "Bugun gorev yok. Yarin tekrar bak!",
+    "bonusCredits": "bonus kredi",
+    "completed": "Tamamlandi!",
+    "claim": "Odulu Al"
+  },
+  "collections": {
+    "title": "Koleksiyon",
+    "create": "Yeni Koleksiyon",
+    "createTitle": "Yeni Koleksiyon",
+    "createDescription": "Koleksiyonuna bir isim ver",
+    "empty": "Bu koleksiyon bos",
+    "emptyState": "Henuz koleksiyon yok",
+    "comingSoon": "Yakinda...",
+    "deleteTitle": "Koleksiyonu Sil",
+    "deleteWarning": "Bu koleksiyon kalici olarak silinecek.",
+    "addTo": "Koleksiyona Ekle",
+    "selectCollection": "Koleksiyon sec",
+    "added": "Koleksiyona eklendi",
+    "removed": "Koleksiyondan cikarildi"
   },
   "settings": {
     "title": "Ayarlar",

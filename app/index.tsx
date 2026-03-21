@@ -12,6 +12,10 @@ export default function Index() {
     return <Redirect href="/(auth)/login" />;
   }
 
+  if (!session.user.email_confirmed_at) {
+    return <Redirect href="/(auth)/verify-email" />;
+  }
+
   if (!onboardingCompleted) {
     return <Redirect href="/(onboarding)/welcome" />;
   }

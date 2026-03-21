@@ -1,10 +1,12 @@
-import { View, Text, Pressable } from 'react-native';
+import { useEffect, useMemo, useState } from 'react';
+import { View, Text, Pressable, Image as RNImage } from 'react-native';
 import { Image } from 'expo-image';
 import Animated, { useSharedValue, useAnimatedStyle } from 'react-native-reanimated';
 import { pressIn, pressOut } from '@/lib/animations';
 import { haptic } from '@/lib/haptics';
 import { Badge } from './Badge';
 import { t } from '@/lib/i18n';
+import { APP_ICON, normalizeImageUri } from '@/lib/images';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
@@ -38,10 +40,34 @@ export function ModCard({
   variant = 'grid',
 }: ModCardProps) {
   const scale = useSharedValue(1);
+  const resolvedThumbnailUrl = useMemo(
+    () => normalizeImageUri(thumbnailUrl, 'mod-thumbs'),
+    [thumbnailUrl]
+  );
+  const [hasImageError, setHasImageError] = useState(false);
 
   const animStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
   }));
+
+  useEffect(() => {
+    setHasImageError(false);
+  }, [resolvedThumbnailUrl]);
+
+  const thumbnail = resolvedThumbnailUrl && !hasImageError ? (
+    <Image
+      source={{ uri: resolvedThumbnailUrl }}
+      style={{ width: '100%', height: '100%' }}
+      placeholder={thumbnailBlurhash ? { blurhash: thumbnailBlurhash } : undefined}
+      transition={200}
+      contentFit="cover"
+      onError={() => setHasImageError(true)}
+    />
+  ) : (
+    <View className="flex-1 bg-[#1C1C1C] items-center justify-center overflow-hidden">
+      <RNImage source={APP_ICON} style={{ width: 28, height: 28, opacity: 0.45 }} resizeMode="contain" />
+    </View>
+  );
 
   if (variant === 'list') {
     return (
@@ -52,13 +78,9 @@ export function ModCard({
         onPress={onPress}
         className="flex-row items-center gap-3 bg-white dark:bg-dark rounded-xl p-3 mb-2"
       >
-        <Image
-          source={thumbnailUrl ? { uri: thumbnailUrl } : require('@/assets/images/icon.png')}
-          style={{ width: 56, height: 56, borderRadius: 12 }}
-          placeholder={thumbnailBlurhash ? { blurhash: thumbnailBlurhash } : undefined}
-          transition={200}
-          contentFit="cover"
-        />
+        <View style={{ width: 56, height: 56, borderRadius: 12 }} className="overflow-hidden">
+          {thumbnail}
+        </View>
         <View className="flex-1 gap-0.5">
           <Text className="text-black dark:text-white font-bold text-sm" numberOfLines={1}>{name}</Text>
           <Text className="text-black/40 dark:text-white/40 text-xs">
@@ -82,13 +104,9 @@ export function ModCard({
       className="flex-1"
     >
       <View className="relative">
-        <Image
-          source={thumbnailUrl ? { uri: thumbnailUrl } : require('@/assets/images/icon.png')}
-          style={{ width: '100%', aspectRatio: 1, borderRadius: 16 }}
-          placeholder={thumbnailBlurhash ? { blurhash: thumbnailBlurhash } : undefined}
-          transition={200}
-          contentFit="cover"
-        />
+        <View style={{ width: '100%', aspectRatio: 1, borderRadius: 16 }} className="overflow-hidden">
+          {thumbnail}
+        </View>
         {isPremium && (
           <View className="absolute top-2 right-2">
             <Badge label="Pro" variant="premium" size="sm" />

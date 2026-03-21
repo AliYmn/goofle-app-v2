@@ -1,12 +1,26 @@
+import { useEffect } from 'react';
 import { View, Text } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { router, useLocalSearchParams } from 'expo-router';
 import { Button } from '@/components/ui/Button';
 import { t } from '@/lib/i18n';
-import { useLocalSearchParams } from 'expo-router';
+import { signOut } from '@/lib/auth';
+import { useAuthStore } from '@/stores/useAuthStore';
 
 export default function VerifyEmailScreen() {
   const insets = useSafeAreaInsets();
   const { email } = useLocalSearchParams<{ email: string }>();
+  const { session, onboardingCompleted } = useAuthStore();
+
+  useEffect(() => {
+    if (!session?.user?.email_confirmed_at) return;
+    router.replace(onboardingCompleted ? '/(tabs)' : '/(onboarding)/welcome');
+  }, [session?.user?.email_confirmed_at, onboardingCompleted]);
+
+  const handleClose = async () => {
+    await signOut();
+    router.replace('/(auth)/login');
+  };
 
   return (
     <View
@@ -23,7 +37,7 @@ export default function VerifyEmailScreen() {
       <Button
         label={t('common.close')}
         variant="outline"
-        onPress={() => {}}
+        onPress={handleClose}
       />
     </View>
   );

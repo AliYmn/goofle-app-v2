@@ -19,3 +19,14 @@
 - Replaced new-endpoint skill with new-edge-function skill (Supabase Deno functions)
 
 **Why:** Initial project configuration to enable AI-assisted development with full context awareness across Claude Code, Cursor, and Windsurf.
+
+## 2026-03-22 -- Email auth flow repair
+
+**What changed:**
+- Added a dedicated `app/(auth)/email-login.tsx` screen for real email/password sign-in
+- Fixed the login screen's "Email ile Giriş Yap" CTA to route to the email login screen instead of sign-up
+- Registered `email-login` and `forgot-password` in `app/(auth)/_layout.tsx`
+- Normalized email input in sign-up flow and linked the sign-up footer back to the email login screen
+- Routed unverified email/password sign-ins to `/(auth)/verify-email` instead of trapping users in the sign-up flow
+
+**Why:** Users trying to log in with email were being sent into account creation, which incorrectly triggered the verify-email screen and made the auth flow look broken.

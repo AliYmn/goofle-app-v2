@@ -1,18 +1,19 @@
-import { useEffect, useState } from 'react';
-import { View, Text, Pressable, Share, ActivityIndicator, Switch } from 'react-native';
+import { useEffect, useMemo, useState } from 'react';
+import { View, Text, Pressable, Share, ActivityIndicator, Switch, Image as RNImage, Alert } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Image } from 'expo-image';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { useToast } from '@/components/ui/Toast';
-import { supabase, GenerationRow } from '@/lib/supabase';
+import { supabase, GenerationRow, CollectionRow } from '@/lib/supabase';
 import { useGenerationStore } from '@/stores/useGenerationStore';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { useCreditStore } from '@/stores/useCreditStore';
 import { analytics } from '@/lib/analytics';
 import { haptic } from '@/lib/haptics';
 import { t } from '@/lib/i18n';
+import { APP_ICON, normalizeImageUri } from '@/lib/images';
 
 export default function GenerationDetailScreen() {
   const insets = useSafeAreaInsets();
@@ -29,8 +30,14 @@ export default function GenerationDetailScreen() {
   const [toggling, setToggling] = useState(false);
   // Capture on mount so the URL survives a store reset while this screen is shown
   const [capturedImageUrl] = useState<string | null>(() => storeResultImageUrl);
+  const [hasImageError, setHasImageError] = useState(false);
 
   const imageUrl = generation?.result_image_url ?? capturedImageUrl;
+  const resolvedImageUrl = useMemo(() => normalizeImageUri(imageUrl, 'generations'), [imageUrl]);
+
+  useEffect(() => {
+    setHasImageError(false);
+  }, [resolvedImageUrl]);
 
   useEffect(() => {
     if (!id || id === 'new') {
@@ -87,6 +94,63 @@ export default function GenerationDetailScreen() {
     router.back();
   };
 
+  const handleAddToCollection = async () => {
+    if (!generation || !session?.user) return;
+
+    const { data: collections } = await supabase
+      .from('collections')
+      .select('id, name')
+      .eq('user_id', session.user.id)
+      .order('created_at', { ascending: false });
+
+    if (!collections || collections.length === 0) {
+      Alert.prompt(
+        t('collections.createTitle'),
+        t('collections.createDescription'),
+        [
+          { text: t('common.cancel'), style: 'cancel' },
+          {
+            text: t('common.save'),
+            onPress: async (name?: string) => {
+              const trimmed = name?.trim();
+              if (!trimmed) return;
+              const { data: newCol } = await supabase
+                .from('collections')
+                .insert({ user_id: session.user!.id, name: trimmed, cover_image_url: null })
+                .select('id')
+                .single();
+              if (newCol) {
+                await supabase.from('collection_items').insert({
+                  collection_id: newCol.id,
+                  generation_id: generation.id,
+                });
+                haptic.success();
+                show({ message: t('collections.added'), type: 'success' });
+              }
+            },
+          },
+        ],
+        'plain-text',
+      );
+      return;
+    }
+
+    const buttons = collections.map((col: CollectionRow) => ({
+      text: col.name,
+      onPress: async () => {
+        await supabase.from('collection_items').insert({
+          collection_id: col.id,
+          generation_id: generation.id,
+        });
+        haptic.success();
+        show({ message: t('collections.added'), type: 'success' });
+      },
+    }));
+    buttons.push({ text: t('common.cancel'), onPress: () => {} });
+
+    Alert.alert(t('collections.selectCollection'), '', buttons);
+  };
+
   return (
     <View style={{ paddingBottom: insets.bottom + 16 }} className="flex-1 bg-black">
       <View className="flex-row items-center justify-between px-4 pt-4 pb-2">
@@ -100,15 +164,17 @@ export default function GenerationDetailScreen() {
         <View className="w-full aspect-square rounded-2xl overflow-hidden bg-[#1C1C1C]">
           {isLoading ? (
             <ActivityIndicator color="#BFFF00" style={{ flex: 1 }} />
-          ) : imageUrl ? (
+          ) : resolvedImageUrl && !hasImageError ? (
             <Image
-              source={{ uri: imageUrl }}
+              source={{ uri: resolvedImageUrl }}
               style={{ width: '100%', height: '100%' }}
               contentFit="cover"
               transition={300}
+              onError={() => setHasImageError(true)}
             />
           ) : (
-            <View className="flex-1 items-center justify-center">
+            <View className="flex-1 items-center justify-center gap-3">
+              <RNImage source={APP_ICON} style={{ width: 64, height: 64, opacity: 0.35 }} resizeMode="contain" />
               <Text className="text-white/30 text-sm">Görüntü bulunamadı</Text>
             </View>
           )}
@@ -153,7 +219,7 @@ export default function GenerationDetailScreen() {
           variant="ghost"
           size="sm"
           fullWidth
-          onPress={() => {}}
+          onPress={handleAddToCollection}
         />
       </View>
     </View>

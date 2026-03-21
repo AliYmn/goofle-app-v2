@@ -22,7 +22,10 @@
     "signOut": "Sign Out",
     "email": "Email",
     "password": "Password",
-    "forgotPassword": "Forgot Password",
+    "forgotPassword": "Forgot Password?",
+    "resetDescription": "Enter your email and we'll send you a link to reset your password.",
+    "resetSent": "We sent a password reset link to your email. Check your inbox.",
+    "sendResetLink": "Send Reset Link",
     "noAccount": "Don't have an account?",
     "hasAccount": "Already have an account?",
     "emailPlaceholder": "email@example.com",
@@ -107,7 +110,9 @@
       "goPro": "Go Pro"
     },
     "dailyLogin": "You earned +{{count}} daily login credits!",
-    "shareBonus": "+{{count}} share bonus!"
+    "shareBonus": "+{{count}} share bonus!",
+    "history": "Credit History",
+    "emptyHistory": "No transactions yet"
   },
   "mods": {
     "title": "Mods",
@@ -139,11 +144,41 @@
   "profile": {
     "title": "Profile",
     "editProfile": "Edit Profile",
+    "edit": {
+      "username": "Username",
+      "usernamePlaceholder": "Your username",
+      "bio": "Bio",
+      "bioPlaceholder": "Tell something about yourself...",
+      "changePhoto": "Change Photo",
+      "saved": "Profile saved"
+    },
     "creations": "Creations",
     "collections": "Collections",
     "myMods": "My Mods",
     "streak": "{{count}} day streak",
     "topStreak": "Best: {{count}} days"
+  },
+  "challenge": {
+    "title": "Daily Challenge",
+    "noChallenge": "No challenge today. Check back tomorrow!",
+    "bonusCredits": "bonus credits",
+    "completed": "Completed!",
+    "claim": "Claim Reward"
+  },
+  "collections": {
+    "title": "Collection",
+    "create": "New Collection",
+    "createTitle": "New Collection",
+    "createDescription": "Give your collection a name",
+    "empty": "This collection is empty",
+    "emptyState": "No collections yet",
+    "comingSoon": "Coming soon...",
+    "deleteTitle": "Delete Collection",
+    "deleteWarning": "This will permanently delete this collection.",
+    "addTo": "Add to Collection",
+    "selectCollection": "Select a collection",
+    "added": "Added to collection",
+    "removed": "Removed from collection"
   },
   "settings": {
     "title": "Settings",

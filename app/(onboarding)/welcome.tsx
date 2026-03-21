@@ -1,9 +1,9 @@
-import { View, Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Image } from 'expo-image';
 import { Button } from '@/components/ui/Button';
 import { t } from '@/lib/i18n';
+import { APP_ICON } from '@/lib/images';
 
 export default function WelcomeScreen() {
   const insets = useSafeAreaInsets();
@@ -15,7 +15,7 @@ export default function WelcomeScreen() {
     >
       <View className="flex-1 items-center justify-center gap-8">
         <Image
-          source={require('@/assets/images/icon.png')}
+          source={APP_ICON}
           style={{ width: 120, height: 120, borderRadius: 28 }}
         />
         <View className="gap-3 items-center">

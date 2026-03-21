@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { View, Text, Pressable, ScrollView, ActivityIndicator } from 'react-native';
+import { useEffect, useMemo, useState } from 'react';
+import { View, Text, Pressable, ScrollView, ActivityIndicator, Image as RNImage } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Image } from 'expo-image';
@@ -10,6 +10,7 @@ import { useGenerationStore } from '@/stores/useGenerationStore';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { haptic } from '@/lib/haptics';
 import { t } from '@/lib/i18n';
+import { APP_ICON, normalizeImageUri } from '@/lib/images';
 
 export default function ModDetailScreen() {
   const insets = useSafeAreaInsets();
@@ -22,6 +23,15 @@ export default function ModDetailScreen() {
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [liking, setLiking] = useState(false);
+  const resolvedThumbnailUrl = useMemo(
+    () => normalizeImageUri(mod?.thumbnail_url, 'mod-thumbs'),
+    [mod?.thumbnail_url]
+  );
+  const [hasImageError, setHasImageError] = useState(false);
+
+  useEffect(() => {
+    setHasImageError(false);
+  }, [resolvedThumbnailUrl]);
 
   useEffect(() => {
     const load = async () => {
@@ -105,17 +115,19 @@ export default function ModDetailScreen() {
 
       <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 24, gap: 20 }}>
         <View className="w-full aspect-square rounded-2xl overflow-hidden bg-[#1C1C1C]">
-          {mod.thumbnail_url ? (
+          {resolvedThumbnailUrl && !hasImageError ? (
             <Image
-              source={{ uri: mod.thumbnail_url }}
+              source={{ uri: resolvedThumbnailUrl }}
               style={{ width: '100%', height: '100%' }}
               contentFit="cover"
               placeholder={mod.thumbnail_blurhash ? { blurhash: mod.thumbnail_blurhash } : undefined}
               transition={300}
+              onError={() => setHasImageError(true)}
             />
           ) : (
-            <View className="flex-1 items-center justify-center">
-              <Text className="text-4xl">🎨</Text>
+            <View className="flex-1 items-center justify-center gap-3">
+              <RNImage source={APP_ICON} style={{ width: 64, height: 64, opacity: 0.35 }} resizeMode="contain" />
+              <Text className="text-white/30 text-sm">Kapak görseli yok</Text>
             </View>
           )}
         </View>
