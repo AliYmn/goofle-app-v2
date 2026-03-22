@@ -33,6 +33,8 @@
     "passwordPlaceholder": "At least 8 characters",
     "verifyEmail": "Verify Your Email",
     "verifyEmailMessage": "We sent a verification link to {{email}}.",
+    "resendEmail": "Resend Email",
+    "resendSuccess": "Verification email sent!",
     "privacyNotice": "By continuing, you agree to our Privacy Policy and Terms of Service."
   },
   "onboarding": {

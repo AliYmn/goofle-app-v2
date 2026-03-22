@@ -3,20 +3,20 @@ import { Platform } from 'react-native';
 import Constants from 'expo-constants';
 import { supabase } from '@/lib/supabase';
 
-type GateStatus = 'loading' | 'ok' | 'force-update' | 'maintenance';
+type GateStatus = 'loading' | 'ok' | 'force-update' | 'maintenance' | 'server-error';
 
 export function useAppGate() {
   const [status, setStatus] = useState<GateStatus>('loading');
 
   const check = useCallback(async () => {
     try {
-      const { data: configs } = await supabase
+      const { data: configs, error } = await supabase
         .from('app_config')
         .select('key, value')
         .in('key', ['minimum_app_version', 'maintenance_mode']);
 
-      if (!configs) {
-        setStatus('ok');
+      if (error || !configs) {
+        setStatus('server-error');
         return;
       }
 
@@ -38,7 +38,7 @@ export function useAppGate() {
 
       setStatus('ok');
     } catch {
-      setStatus('ok');
+      setStatus('server-error');
     }
   }, []);
 

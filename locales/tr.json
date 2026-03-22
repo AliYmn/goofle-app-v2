@@ -33,6 +33,8 @@
     "passwordPlaceholder": "En az 8 karakter",
     "verifyEmail": "Emailini Doğrula",
     "verifyEmailMessage": "{{email}} adresine doğrulama linki gönderdik.",
+    "resendEmail": "Epostayı Tekrar Gönder",
+    "resendSuccess": "Doğrulama epostası gönderildi!",
     "privacyNotice": "Devam ederek Gizlilik Politikamızı ve Kullanım Şartlarımızı kabul etmiş olursunuz."
   },
   "onboarding": {

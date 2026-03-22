@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from 'react';
 import { View, Text, Pressable, FlatList, RefreshControl, Alert } from 'react-native';
 import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import * as Clipboard from 'expo-clipboard';
 import { Ionicons } from '@expo/vector-icons';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -11,6 +10,15 @@ import { supabase, PromptLibraryRow } from '@/lib/supabase';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { haptic } from '@/lib/haptics';
 import { t } from '@/lib/i18n';
+
+type ClipboardModuleType = typeof import('expo-clipboard');
+let ClipboardModule: ClipboardModuleType | null = null;
+try {
+  // dynamic require avoids crashing when native module is missing
+  ClipboardModule = require('expo-clipboard') as ClipboardModuleType;
+} catch {
+  ClipboardModule = null;
+}
 
 function PromptCard({
   item,
@@ -22,7 +30,11 @@ function PromptCard({
   onVote: (promptId: string) => void;
 }) {
   const handleCopy = async () => {
-    await Clipboard.setStringAsync(item.prompt_text);
+    if (!ClipboardModule) {
+      return;
+    }
+
+    await ClipboardModule.setStringAsync(item.prompt_text);
     haptic.success();
   };
 

@@ -99,10 +99,10 @@ export default function WelcomeScreen() {
               backgroundColor: '#BFFF00',
               alignItems: 'center',
               justifyContent: 'center',
-              shadowColor: '#BFFF00',
+              shadowColor: '#000000',
               shadowOffset: { width: 0, height: 8 },
-              shadowOpacity: 0.35,
-              shadowRadius: 24,
+              shadowOpacity: 0.25,
+              shadowRadius: 20,
               elevation: 12,
             }}
           >

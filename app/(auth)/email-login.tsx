@@ -19,8 +19,8 @@ export default function EmailLoginScreen() {
   const insets = useSafeAreaInsets();
   const { loginWithEmail } = useAuthStore();
   const { show } = useToast();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('aliymn.db@gmail.com');
+  const [password, setPassword] = useState('Shardolsun44!');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async () => {

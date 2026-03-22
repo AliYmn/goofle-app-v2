@@ -29,6 +29,7 @@ import { supabase } from '@/lib/supabase';
 import { useAppGate } from '@/hooks/useAppGate';
 import { ForceUpdate } from '@/components/screens/ForceUpdate';
 import { MaintenanceMode } from '@/components/screens/MaintenanceMode';
+import { ErrorState } from '@/components/screens/ErrorState';
 
 Sentry.init({
   dsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
@@ -121,6 +122,18 @@ export default Sentry.wrap(function RootLayout() {
       <GestureHandlerRootView style={{ flex: 1 }}>
         <SafeAreaProvider>
           <MaintenanceMode onRetry={recheck} />
+        </SafeAreaProvider>
+      </GestureHandlerRootView>
+    );
+  }
+
+  if (gateStatus === 'server-error') {
+    return (
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <SafeAreaProvider>
+          <View className="flex-1 bg-black">
+            <ErrorState type="network" onCta={recheck} />
+          </View>
         </SafeAreaProvider>
       </GestureHandlerRootView>
     );
