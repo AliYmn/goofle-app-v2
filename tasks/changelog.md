@@ -71,6 +71,21 @@
 
 **Why:** Security hardening and platform compliance before production launch.
 
+## 2026-03-22 -- UI/UX audit fixes: feed bug, icon confusion, Android crash
+
+**What changed:**
+- Fixed blank feed bug: `useAuthStore.initialize()` wrapped in try/catch so `isLoading` always resolves
+- StreakBadge cold state (< 7 days): icon changed from `flash+lime` to `calendar-outline+blue` -- distinct from CreditPill
+- verify-email: replaced `📬` emoji with `Ionicons mail-outline` (brand compliance)
+- `Alert.prompt` (iOS-only crash on Android) replaced with cross-platform Modal + TextInput in profile.tsx and generation/[id].tsx
+- explore.tsx: errors now show ErrorState instead of silent empty state; search placeholder uses i18n; clear button is adaptive to color scheme
+- Design token cleanup: `bg-[#F5F5F5]` → `bg-[#F2F2F0]`, `bg-[#1C1C1C]` → `bg-dark` (partial), `border-[#BFFF00]` → `border-lime`
+- profile.tsx: collection `›` text → Ionicons `chevron-forward`; active tab token cleanup
+- i18n: added `common.user`, `generation.saveFailed`, `profile.emptyCreations`, `streak.dayLabel`, `mods.searchPlaceholder` (en + tr)
+- StreakBadge `gün` hardcode → `t('streak.dayLabel')`
+
+**Why:** User reported feed not loading, streak/credit showing same icon, and general design quality issues. Root causes: auth initialization not fault-tolerant, semantically identical icon treatment for two different metrics, and emoji fallbacks in several brand-critical screens.
+
 ## 2026-03-22 -- P2 UX states and P3 App Store readiness
 
 **What changed:**

@@ -104,30 +104,30 @@ Kaynaklar: ui-auditor agent tam raporu.
 - [x] **Feed yuklenmiyor -- initialize() try/finally eksik** -- `supabase.auth.getSession()` atarsa `isLoading: true` kalir, index.tsx sonsuza null doner. `stores/useAuthStore.ts` try/finally sarmalandi.
 - [x] **StreakBadge ve CreditPill ayni icon** -- Her ikisi de `flash` + `#BFFF00`. StreakBadge soguk state'i `calendar-outline` + `#4DA8FF` yapildi.
 - [x] **verify-email emoji** -- `📬` Ionicons kuralini cigniyordu. `mail-outline` ile degistirildi.
-- [ ] **Alert.prompt Android'de calismaz** -- `app/(tabs)/profile.tsx` ve `app/generation/[id].tsx`'te koleksiyon olusturma Android'de sessizce hata verir. Ozel modal ile degistirilmeli.
-- [ ] **Explore.tsx hata yutma** -- `const { data } = await req`, `error` dikkate alinmiyor. Sorgu basarisiz olursa bos state gorunur, hata degil. `{ data, error }` destructure edilmeli + ErrorState gosterilmeli.
+- [x] **Alert.prompt Android'de calismaz** -- Modal + TextInput ile degistirildi (profile.tsx + generation/[id].tsx).
+- [x] **Explore.tsx hata yutma** -- `{ data, error }` destructure edildi, ErrorState gosteriliyor.
 
 ### P1 -- Tasarim Tutarsizliklari ve Teknik Eksikler (Gorunur / Kritik)
 
 - [ ] **verify-email polling ve resend eksik** -- Kullanici epostayi onayladiginda uygulama otomatik fark etmiyor (polling) ve eposta gelmezse tekrar gonderemiyor (resend).
 - [ ] **useAppGate cok esnek (Permissive)** -- `hooks/useAppGate.ts`'te fetch hatasi durumunda status direkt `'ok'` donuyor. Bakim modu veya zorunlu guncelleme bypass edilebilir.
 - [ ] **Supabase error handling eksik** -- `app/generation/[id].tsx` ve bircok ekranda `error` objesi kontrol edilmiyor, sessiz hatalar (silent failures) olusuyor.
-- [ ] **`#1C1C1C` phantom renk** -- Tasarim sisteminde yok. 7+ dosyada `bg-[#1C1C1C]` var (ImageCard, ModCard, generation/[id].tsx, mod/[slug].tsx). `bg-black` (#1A1A1A) veya `bg-dark` (#2D2D2D) ile degistirilmeli.
-- [ ] **`#F5F5F5` yanlis light mode bg** -- explore.tsx:70, profile.tsx:199. Token degil. `bg-off-white` kullanilmali.
-- [ ] **`#3A3A3A` raw hex 5+ yerde** -- profile.tsx satirlari 156, 169, 174, 182, 239. `border-divider-dark` ile degistirilmeli.
-- [ ] **ModCard resmi `✓` emoji** -- `<Badge label="✓">` Ionicons kuralini cigniyordu. `<Ionicons name="checkmark">` ile degistirilmeli.
-- [ ] **profile.tsx `›` text chevron** -- Satir 263. `<Ionicons name="chevron-forward">` ile degistirilmeli.
-- [ ] **Hardcoded Turkce stringler** -- profile.tsx:`Kullanici`, `Henuz uretim yok`; mod/[slug].tsx:`Kategori`, `Kredi maliyeti`, `Kapak gorseli yok`; generation/[id].tsx:`Ayar kaydedilemedi`. i18n anahtarlari eklenmeli.
-- [ ] **StreakBadge `gun` label hardcoded** -- Satir 26. `t('streak.dayLabel')` ile degistirilmeli.
+- [x] **`#1C1C1C` phantom renk (kismi)** -- generation/[id].tsx ve explore.tsx `bg-dark` yapildi. Kalan: ImageCard, ModCard, mod/[slug].tsx.
+- [x] **`#F5F5F5` yanlis light mode bg** -- explore.tsx + profile.tsx `bg-[#F2F2F0] dark:bg-black` yapildi.
+- [ ] **`#3A3A3A` raw hex 5+ yerde** -- profile.tsx'te kaliyor. `border-[#3A3A3A]` token haline getirilmeli.
+- [ ] **ModCard resmi `✓` emoji** -- `<Badge label="✓">` Ionicons kuralini cigniyordu. Duzeltilmeli.
+- [x] **profile.tsx `›` text chevron** -- `<Ionicons name="chevron-forward">` ile degistirildi.
+- [x] **Hardcoded Turkce stringler (kismi)** -- profile.tsx, generation/[id].tsx, StreakBadge duzeltildi. Kalan: mod/[slug].tsx.
+- [x] **StreakBadge `gun` label hardcoded** -- `t('streak.dayLabel')` yapildi.
 - [ ] **welcome.tsx core RN Image** -- Onboarding splash asset `expo-image` ile render edilmeli (blurhash, lazy loading).
-- [ ] **`border-[#BFFF00]` raw hex** -- profile.tsx:187 active tab. `border-lime` ile degistirilmeli.
+- [x] **`border-[#BFFF00]` ve `text-[#BFFF00]` raw hex** -- profile.tsx active tab `border-lime` / `text-lime` yapildi.
 
 ### P2 -- Erisilebilirlik ve Kullanici Deneyimi
 
 - [ ] **profile.tsx static GRID_SIZE** -- `Dimensions.get` kullanimi oryantasyon degisikliklerini algilamaz. `useWindowDimensions`'a gecilmeli.
 - [ ] **useAuthStore race condition riski** -- `onAuthStateChange` tetiklendiginde birden fazla `fetchUser` cakisabilir. AbortController veya timestamp kontrolu eklenmeli.
 - [ ] **44pt minimum dokunu alani** -- close butonlari `w-10 h-10` (40pt). generation/[id].tsx:158, mod/[slug].tsx:110. `w-11 h-11` yapilmali.
-- [ ] **Search clear butonu kucuk** -- explore.tsx:84. `Pressable` icin `p-3` veya `w-11 h-11` eklenmeli.
+- [x] **Search clear butonu kucuk** -- explore.tsx'te `p-2` eklendi, renk color scheme'e gore uyarlandı.
 - [ ] **accessibilityLabel eksik** -- CreditPill, StreakBadge, ImageCard like/try butonlari, ModCard try butonu, Avatar, profile GenerationGridTile, explore filter tablari.
 - [ ] **verify-email yeniden gonder CTA yok** -- Eposta kaybolursa kullanici tuzaga dusuyor. "Tekrar Gonder" butonu + Supabase `resend()` eklenmeli.
 - [ ] **verify-email poll eksik** -- Masaustunden onaylarsa `onAuthStateChange` tetiklenmez. `supabase.auth.refreshSession()` ile 5s interval polling eklenmeli.
@@ -136,8 +136,8 @@ Kaynaklar: ui-auditor agent tam raporu.
 
 ### P3 -- Kucuk Tutarsizliklar
 
-- [ ] **explore.tsx icon rengi light modeda gorunmez** -- `color="rgba(255,255,255,0.4)"` arama temizle ikonu, acik arka planda neredeyse gorunmez.
-- [ ] **explore.tsx arama placeholder i18n degil** -- `"Mod ara..."` hardcoded Turkce. `t('mods.searchPlaceholder')` olmali.
+- [x] **explore.tsx icon rengi light modeda gorunmez** -- `useColorScheme()` ile adaptif renk yapildi.
+- [x] **explore.tsx arama placeholder i18n degil** -- `t('mods.searchPlaceholder')` yapildi.
 - [ ] **signup.tsx geri butonu text, icon degil** -- `t('common.back')` text ile gorunuyor; `<Ionicons name="arrow-back">` olmali.
 - [ ] **generation/[id].tsx paylasim mesaji hardcoded** -- Satir 66. `'gooflo.yamapps.com ile urettim!'` - i18n ve config sabiti olmali.
 - [ ] **mod/[slug].tsx null category badge** -- `mod.category` null olabilir, bos badge render eder. Null guard eklenmeli.
