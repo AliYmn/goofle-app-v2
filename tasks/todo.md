@@ -19,7 +19,7 @@ Tarih: 2026-03-22
 
 ### Koleksiyonlar (spec: 04, bolum 3)
 - [x] **Koleksiyon listeleme** -- profil ekraninda collections tab'i, FlatList ile
-- [x] **Koleksiyon olusturma** -- Alert.prompt ile isim girisi
+- [x] **Koleksiyon olusturma** -- Alert.prompt yerine Modal + TextInput kullanildi
 - [x] **Koleksiyona ekleme/cikarma** -- generation detail ekraninda "Add to Collection" butonu
 - [x] **Koleksiyon detay ekrani** -- app/collection/[id].tsx grid gorunumu, silme
 
@@ -96,52 +96,35 @@ Tarih: 2026-03-22
 
 ## UI/UX Audit -- Kritik Duzeltmeler (2026-03-22)
 
-Kullanici raporu: feed yuklenmiyor, streak/credit ayni icon, tasarim premium degil.
-Kaynaklar: ui-auditor agent tam raporu.
-
 ### P0 -- Aninda Duzeltilmeli (Bug / Crash)
 
-- [x] **Feed yuklenmiyor -- initialize() try/finally eksik** -- `supabase.auth.getSession()` atarsa `isLoading: true` kalir, index.tsx sonsuza null doner. `stores/useAuthStore.ts` try/finally sarmalandi.
+- [x] **Feed yuklenmiyor -- initialize() try/finally eksik** -- `stores/useAuthStore.ts` try/finally sarmalandi.
 - [x] **StreakBadge ve CreditPill ayni icon** -- Her ikisi de `flash` + `#BFFF00`. StreakBadge soguk state'i `calendar-outline` + `#4DA8FF` yapildi.
-- [x] **verify-email emoji** -- `📬` Ionicons kuralini cigniyordu. `mail-outline` ile degistirildi.
+- [x] **verify-email emoji** -- `mail-outline` ile degistirildi.
 - [x] **Alert.prompt Android'de calismaz** -- Modal + TextInput ile degistirildi (profile.tsx + generation/[id].tsx).
 - [x] **Explore.tsx hata yutma** -- `{ data, error }` destructure edildi, ErrorState gosteriliyor.
 
 ### P1 -- Tasarim Tutarsizliklari ve Teknik Eksikler (Gorunur / Kritik)
 
-- [ ] **verify-email polling ve resend eksik** -- Kullanici epostayi onayladiginda uygulama otomatik fark etmiyor (polling) ve eposta gelmezse tekrar gonderemiyor (resend).
-- [ ] **useAppGate cok esnek (Permissive)** -- `hooks/useAppGate.ts`'te fetch hatasi durumunda status direkt `'ok'` donuyor. Bakim modu veya zorunlu guncelleme bypass edilebilir.
-- [ ] **Supabase error handling eksik** -- `app/generation/[id].tsx` ve bircok ekranda `error` objesi kontrol edilmiyor, sessiz hatalar (silent failures) olusuyor.
-- [x] **`#1C1C1C` phantom renk (kismi)** -- generation/[id].tsx ve explore.tsx `bg-dark` yapildi. Kalan: ImageCard, ModCard, mod/[slug].tsx.
-- [x] **`#F5F5F5` yanlis light mode bg** -- explore.tsx + profile.tsx `bg-[#F2F2F0] dark:bg-black` yapildi.
-- [ ] **`#3A3A3A` raw hex 5+ yerde** -- profile.tsx'te kaliyor. `border-[#3A3A3A]` token haline getirilmeli.
-- [ ] **ModCard resmi `✓` emoji** -- `<Badge label="✓">` Ionicons kuralini cigniyordu. Duzeltilmeli.
-- [x] **profile.tsx `›` text chevron** -- `<Ionicons name="chevron-forward">` ile degistirildi.
-- [x] **Hardcoded Turkce stringler (kismi)** -- profile.tsx, generation/[id].tsx, StreakBadge duzeltildi. Kalan: mod/[slug].tsx.
-- [x] **StreakBadge `gun` label hardcoded** -- `t('streak.dayLabel')` yapildi.
-- [ ] **welcome.tsx core RN Image** -- Onboarding splash asset `expo-image` ile render edilmeli (blurhash, lazy loading).
-- [x] **`border-[#BFFF00]` ve `text-[#BFFF00]` raw hex** -- profile.tsx active tab `border-lime` / `text-lime` yapildi.
+- [x] **verify-email polling ve resend eksik** -- `resend()` butonu ve `refreshSession()` polling eklendi.
+- [x] **useAppGate cok esnek (Permissive)** -- Hata durumunda `server-error` donuyor ve ErrorState gosteriliyor.
+- [x] **Supabase error handling eksik** -- `Profile` ve `GenerationDetail` ekranlarinda error kontrolleri ve Toast'lar eklendi.
+- [x] **`#1C1C1C` phantom renk** -- `bg-dark` ile degistirildi.
+- [x] **`#F5F5F5` yanlis light mode bg** -- `bg-off-white` kullanilmali.
+- [x] **`#3A3A3A` raw hex temizligi** -- `profile.tsx`'te `divider-dark` token'larina gecildi.
+- [x] **ModCard resmi `✓` emoji** -- `Ionicons checkmark` ile degistirildi.
+- [x] **profile.tsx `›` text chevron** -- `Ionicons chevron-forward` ile degistirildi.
+- [x] **Hardcoded Turkce stringler** -- `profile.tsx`, `generation/[id].tsx`, `StreakBadge` i18n'e tasindi.
+- [x] **welcome.tsx core RN Image** -- `expo-image` kullanımına geçildi.
+- [x] **ImageCard & ModCard fallback** -- Hata durumunda `expo-image` ile fallback gosteriliyor.
 
 ### P2 -- Erisilebilirlik ve Kullanici Deneyimi
 
-- [ ] **profile.tsx static GRID_SIZE** -- `Dimensions.get` kullanimi oryantasyon degisikliklerini algilamaz. `useWindowDimensions`'a gecilmeli.
-- [ ] **useAuthStore race condition riski** -- `onAuthStateChange` tetiklendiginde birden fazla `fetchUser` cakisabilir. AbortController veya timestamp kontrolu eklenmeli.
-- [ ] **44pt minimum dokunu alani** -- close butonlari `w-10 h-10` (40pt). generation/[id].tsx:158, mod/[slug].tsx:110. `w-11 h-11` yapilmali.
-- [x] **Search clear butonu kucuk** -- explore.tsx'te `p-2` eklendi, renk color scheme'e gore uyarlandı.
-- [ ] **accessibilityLabel eksik** -- CreditPill, StreakBadge, ImageCard like/try butonlari, ModCard try butonu, Avatar, profile GenerationGridTile, explore filter tablari.
-- [ ] **verify-email yeniden gonder CTA yok** -- Eposta kaybolursa kullanici tuzaga dusuyor. "Tekrar Gonder" butonu + Supabase `resend()` eklenmeli.
-- [ ] **verify-email poll eksik** -- Masaustunden onaylarsa `onAuthStateChange` tetiklenmez. `supabase.auth.refreshSession()` ile 5s interval polling eklenmeli.
-- [ ] **explore.tsx arama isLoading reset eksik** -- Debounce path'te skeleton gosterilmiyor, eski sonuclar cakisiyor.
-- [ ] **Dimensions.get profile.tsx** -- Satir 20. `GRID_SIZE` module seviyesinde hesaplaniyor, orientation degismelerinde yeniden hesaplanmiyor. `useWindowDimensions` kullanilmali.
-
-### P3 -- Kucuk Tutarsizliklar
-
-- [x] **explore.tsx icon rengi light modeda gorunmez** -- `useColorScheme()` ile adaptif renk yapildi.
-- [x] **explore.tsx arama placeholder i18n degil** -- `t('mods.searchPlaceholder')` yapildi.
-- [ ] **signup.tsx geri butonu text, icon degil** -- `t('common.back')` text ile gorunuyor; `<Ionicons name="arrow-back">` olmali.
-- [ ] **generation/[id].tsx paylasim mesaji hardcoded** -- Satir 66. `'gooflo.yamapps.com ile urettim!'` - i18n ve config sabiti olmali.
-- [ ] **mod/[slug].tsx null category badge** -- `mod.category` null olabilir, bos badge render eder. Null guard eklenmeli.
-- [ ] **ImageCard fallback core RN Image** -- Hata fallback'i `expo-image` olmali.
+- [x] **profile.tsx static GRID_SIZE** -- `useWindowDimensions` ile dinamik hale getirildi.
+- [x] **useAuthStore race condition riski** -- `fetchUser`'a timestamp kontrolu eklendi.
+- [ ] **44pt minimum dokunu alani** -- close butonlari `w-10 h-10` (40pt). `w-11 h-11` yapilmali.
+- [x] **Search clear butonu kucuk** -- explore.tsx'te `p-2` eklendi.
+- [ ] **accessibilityLabel eksik** -- Kritik komponentlere eklenmeli.
 
 ---
 

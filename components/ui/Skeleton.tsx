@@ -51,11 +51,14 @@ export function CardSkeleton() {
 
 export function ImageCardSkeleton() {
   return (
-    <View className="rounded-xl overflow-hidden gap-2">
-      <Skeleton height={200} rounded={false} />
-      <View className="px-2 gap-1">
-        <Skeleton width="50%" height={14} />
-        <Skeleton width="30%" height={12} />
+    <View className="overflow-hidden rounded-[24px] border border-[#E5E5E3] bg-white dark:border-[#3A3A3A] dark:bg-[#2D2D2D]">
+      <Skeleton height={320} rounded={false} className="rounded-none" />
+      <View className="gap-3 px-4 py-4">
+        <View className="flex-row items-center justify-between">
+          <Skeleton width="44%" height={16} />
+          <Skeleton width={86} height={32} rounded />
+        </View>
+        <Skeleton width="28%" height={13} />
       </View>
     </View>
   );

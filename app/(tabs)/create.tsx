@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { View, Text, ScrollView, Pressable, Alert, TextInput } from 'react-native';
+import { View, Text, ScrollView, Pressable, Alert, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import { Image } from 'expo-image';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
@@ -13,13 +13,14 @@ import { useCreditStore } from '@/stores/useCreditStore';
 import { useGeneration } from '@/hooks/useGeneration';
 import { haptic } from '@/lib/haptics';
 import { t } from '@/lib/i18n';
+import { normalizeImageUri } from '@/lib/images';
 
 export default function CreateScreen() {
   const insets = useSafeAreaInsets();
   const { sourceImageUri, selectedMod, setSourceImageUri, customPrompt, setCustomPrompt } =
     useGenerationStore();
   const { balance } = useCreditStore();
-  const { status, resultImageUrl, startGeneration, reset } = useGeneration();
+  const { status, startGeneration, reset } = useGeneration();
 
   const isGenerating = status === 'submitting' || status === 'processing';
 
@@ -76,115 +77,156 @@ export default function CreateScreen() {
     }
   }, [status]);
 
+  const selectedModThumb = selectedMod ? normalizeImageUri(selectedMod.thumbnail_url, 'mod-thumbs') : null;
+
   return (
-    <View style={{ paddingTop: insets.top }} className="flex-1 bg-[#F5F5F5] dark:bg-black">
-      <View className="flex-row items-center justify-between px-4 py-3">
-        <Text className="text-black dark:text-white font-bold text-xl">{t('create.title')}</Text>
+    <KeyboardAvoidingView 
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      className="flex-1 bg-off-white dark:bg-black"
+      style={{ paddingTop: insets.top }}
+    >
+      <View className="flex-row items-center justify-between px-6 py-4">
+        <Text className="text-black dark:text-white font-heading text-2xl">{t('create.title')}</Text>
         <CreditPill balance={balance} />
       </View>
 
       <ScrollView
         className="flex-1"
-        contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 140, gap: 20 }}
+        contentContainerStyle={{ paddingHorizontal: 24, paddingBottom: 160, gap: 24 }}
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
       >
-        <View className="w-full aspect-square rounded-2xl bg-white dark:bg-[#1C1C1C] border-2 border-dashed border-[#3A3A3A] items-center justify-center overflow-hidden">
-          {sourceImageUri ? (
-            <>
-              <Image
-                source={{ uri: sourceImageUri }}
-                style={{ width: '100%', height: '100%' }}
-                contentFit="cover"
-              />
-              <Pressable
-                onPress={() => setSourceImageUri(null)}
-                className="absolute top-3 right-3 bg-black/60 rounded-full w-8 h-8 items-center justify-center"
-              >
-                <Text className="text-white text-xs font-bold">✕</Text>
-              </Pressable>
-            </>
-          ) : (
-            <View className="items-center gap-4">
-              <Ionicons name="camera-outline" size={48} color="rgba(255,255,255,0.3)" />
-              <Text className="text-black/40 dark:text-white/40 font-medium text-sm">
-                {t('create.selectPhoto')}
-              </Text>
-              <View className="flex-row gap-3">
+        {/* Photo Upload Area */}
+        <View className="gap-3">
+          <Text className="text-black/40 dark:text-white/40 font-bold text-xs uppercase tracking-widest ml-1">
+            {t('create.selectPhoto')}
+          </Text>
+          <View className="w-full aspect-square rounded-[32px] bg-white dark:bg-dark border border-divider-light dark:border-divider-dark items-center justify-center overflow-hidden shadow-sm">
+            {sourceImageUri ? (
+              <>
+                <Image
+                  source={{ uri: sourceImageUri }}
+                  style={{ width: '100%', height: '100%' }}
+                  contentFit="cover"
+                />
                 <Pressable
-                  onPress={takePhoto}
-                  className="bg-[#BFFF00]/10 rounded-lg px-4 py-2"
+                  onPress={() => { setSourceImageUri(null); haptic.tap(); }}
+                  className="absolute top-4 right-4 bg-black/70 rounded-full w-10 h-10 items-center justify-center border border-white/20"
                 >
-                  <Text className="text-[#BFFF00] font-semibold text-sm">{t('create.camera')}</Text>
+                  <Ionicons name="close" size={20} color="white" />
                 </Pressable>
-                <Pressable
-                  onPress={pickFromGallery}
-                  className="bg-black/10 dark:bg-white/10 rounded-lg px-4 py-2"
-                >
-                  <Text className="text-black dark:text-white font-semibold text-sm">
-                    {t('create.gallery')}
-                  </Text>
-                </Pressable>
+              </>
+            ) : (
+              <View className="items-center px-8 w-full gap-6">
+                <View className="w-20 h-20 rounded-full bg-lime/10 items-center justify-center">
+                  <Ionicons name="camera" size={32} color="#BFFF00" />
+                </View>
+                <View className="flex-row gap-3 w-full">
+                  <Pressable
+                    onPress={takePhoto}
+                    className="flex-1 bg-lime h-12 rounded-2xl items-center justify-center"
+                  >
+                    <Text className="text-black font-bold text-sm">{t('create.camera')}</Text>
+                  </Pressable>
+                  <Pressable
+                    onPress={pickFromGallery}
+                    className="flex-1 bg-black dark:bg-white h-12 rounded-2xl items-center justify-center"
+                  >
+                    <Text className="text-white dark:text-black font-bold text-sm">
+                      {t('create.gallery')}
+                    </Text>
+                  </Pressable>
+                </View>
               </View>
-            </View>
-          )}
+            )}
+          </View>
         </View>
 
-        <Pressable
-          onPress={() => router.push('/explore')}
-          className="bg-white dark:bg-[#1C1C1C] rounded-xl p-4 flex-row items-center justify-between"
-        >
-          <View className="gap-0.5">
-            <Text className="text-black/40 dark:text-white/40 text-xs">{t('create.selectMod')}</Text>
-            <Text className="text-black dark:text-white font-bold text-base">
-              {selectedMod?.name ?? 'Mod seçilmedi'}
-            </Text>
-          </View>
-          <Text className="text-[#BFFF00] font-semibold text-sm">
-            {selectedMod ? t('create.changeMod') : 'Seç →'}
+        {/* Mod Selection Area */}
+        <View className="gap-3">
+          <Text className="text-black/40 dark:text-white/40 font-bold text-xs uppercase tracking-widest ml-1">
+            {t('create.selectMod')}
           </Text>
-        </Pressable>
+          <Pressable
+            onPress={() => { router.push('/explore'); haptic.tap(); }}
+            className="bg-white dark:bg-dark rounded-2xl p-4 flex-row items-center gap-4 border border-divider-light dark:border-divider-dark shadow-sm"
+          >
+            <View className="w-14 h-14 rounded-xl bg-off-white dark:bg-black items-center justify-center overflow-hidden border border-divider-light dark:border-divider-dark">
+              {selectedModThumb ? (
+                <Image
+                  source={{ uri: selectedModThumb }}
+                  style={{ width: '100%', height: '100%' }}
+                  contentFit="cover"
+                />
+              ) : (
+                <Ionicons name="color-palette" size={24} color="rgba(128,128,128,0.4)" />
+              )}
+            </View>
+            
+            <View className="flex-1 gap-0.5">
+              <Text className="text-black dark:text-white font-bold text-base">
+                {selectedMod?.name ?? t('create.noneSelected')}
+              </Text>
+              <Text className="text-black/40 dark:text-white/40 text-xs">
+                {selectedMod ? t('create.changeMod') : t('create.selectMod')}
+              </Text>
+            </View>
 
+            <View className="w-8 h-8 rounded-full bg-off-white dark:bg-black items-center justify-center">
+              <Ionicons name="chevron-forward" size={16} color="rgba(128,128,128,0.6)" />
+            </View>
+          </Pressable>
+        </View>
+
+        {/* Custom Prompt Area */}
         {selectedMod && (
-          <View className="gap-2">
-            <Text className="text-black dark:text-white font-semibold text-sm">
-              {t('create.customizePrompt')}
-            </Text>
+          <View className="gap-3">
+            <View className="flex-row items-center justify-between px-1">
+              <Text className="text-black/40 dark:text-white/40 font-bold text-xs uppercase tracking-widest">
+                {t('create.customizePrompt')}
+              </Text>
+              <Ionicons name="sparkles" size={14} color="#BFFF00" />
+            </View>
             <TextInput
               value={customPrompt}
               onChangeText={setCustomPrompt}
-              placeholder="İsteğe bağlı ek detaylar..."
-              placeholderTextColor="rgba(255,255,255,0.3)"
+              placeholder={t('create.customizePlaceholder')}
+              placeholderTextColor="rgba(128,128,128,0.4)"
               multiline
-              numberOfLines={3}
-              className="bg-white dark:bg-[#1C1C1C] rounded-xl p-4 text-black dark:text-white text-sm min-h-[80px]"
+              className="bg-white dark:bg-dark rounded-2xl p-4 text-black dark:text-white text-sm min-h-[100px] border border-divider-light dark:border-divider-dark shadow-sm"
               style={{ textAlignVertical: 'top' }}
             />
           </View>
         )}
       </ScrollView>
 
+      {/* Action Footer */}
       <View
         style={{ paddingBottom: insets.bottom + 16 }}
-        className="absolute bottom-0 left-0 right-0 px-4 pt-4 bg-[#F5F5F5]/90 dark:bg-black/90"
+        className="absolute bottom-0 left-0 right-0 px-6 pt-6 bg-off-white/95 dark:bg-black/95 border-t border-divider-light dark:border-divider-dark"
       >
-        {selectedMod && (
-          <Text className="text-black/40 dark:text-white/40 text-xs text-center mb-3">
-            {t('create.creditCost', { cost: selectedMod.credit_cost, balance })}
-          </Text>
-        )}
-        <Button
-          label={t('create.generate')}
-          variant="primary"
-          size="lg"
-          fullWidth
-          disabled={!sourceImageUri || !selectedMod}
-          isLoading={isGenerating}
-          onPress={handleGenerate}
-        />
+        <View className="gap-4">
+          {selectedMod && (
+            <View className="flex-row items-center justify-center gap-2">
+              <Ionicons name="flash" size={12} color="#BFFF00" />
+              <Text className="text-black/40 dark:text-white/40 text-xs font-bold">
+                {t('create.creditCost', { cost: selectedMod.credit_cost, balance })}
+              </Text>
+            </View>
+          )}
+          <Button
+            label={t('create.generate')}
+            variant="primary"
+            size="lg"
+            fullWidth
+            disabled={!sourceImageUri || !selectedMod}
+            isLoading={isGenerating}
+            onPress={handleGenerate}
+          />
+        </View>
       </View>
 
       <ProgressOverlay visible={isGenerating} />
-    </View>
+    </KeyboardAvoidingView>
   );
 }

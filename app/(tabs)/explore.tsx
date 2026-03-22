@@ -75,22 +75,22 @@ export default function ExploreScreen() {
   };
 
   return (
-    <View style={{ paddingTop: insets.top }} className="flex-1 bg-[#F2F2F0] dark:bg-black">
-      <View className="px-4 pt-3 pb-2 gap-3">
-        <Text className="text-black dark:text-white font-bold text-2xl">{t('mods.title')}</Text>
+    <View style={{ paddingTop: insets.top }} className="flex-1 bg-off-white dark:bg-black">
+      <View className="px-6 pt-4 pb-2 gap-4">
+        <Text className="text-black dark:text-white font-heading text-2xl">{t('mods.title')}</Text>
 
-        <View className="flex-row items-center bg-white dark:bg-dark rounded-xl px-4 h-11 border border-[#3A3A3A]">
-          <Ionicons name="search-outline" size={18} color="rgba(128,128,128,0.6)" style={{ marginRight: 8 }} />
+        <View className="flex-row items-center bg-white dark:bg-dark rounded-2xl px-4 h-12 border border-divider-light dark:border-divider-dark shadow-sm">
+          <Ionicons name="search" size={20} color="rgba(128,128,128,0.6)" style={{ marginRight: 8 }} />
           <TextInput
-            className="flex-1 text-black dark:text-white text-sm"
+            className="flex-1 text-black dark:text-white text-sm font-semibold"
             placeholder={t('mods.searchPlaceholder')}
             placeholderTextColor="#8A8A8A"
             value={search}
             onChangeText={setSearch}
           />
           {search.length > 0 && (
-            <Pressable onPress={() => setSearch('')} className="p-2">
-              <Ionicons name="close-circle" size={16} color={colorScheme === 'dark' ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.35)'} />
+            <Pressable onPress={() => { setSearch(''); haptic.tap(); }} className="p-2">
+              <Ionicons name="close-circle" size={18} color={colorScheme === 'dark' ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.35)'} />
             </Pressable>
           )}
         </View>
@@ -115,9 +115,9 @@ export default function ExploreScreen() {
       </View>
 
       {isLoading ? (
-        <View className="flex-row flex-wrap px-4 gap-3">
+        <View className="flex-row flex-wrap px-6 gap-4 mt-2">
           {Array.from({ length: 6 }).map((_, i) => (
-            <Skeleton key={i} className="rounded-2xl" style={{ width: '47%', aspectRatio: 0.8 }} />
+            <Skeleton key={i} className="rounded-[24px]" style={{ width: '47%', aspectRatio: 0.8 }} />
           ))}
         </View>
       ) : hasError ? (
@@ -134,8 +134,8 @@ export default function ExploreScreen() {
           data={mods}
           keyExtractor={(item) => item.id}
           numColumns={2}
-          columnWrapperStyle={{ gap: 12, paddingHorizontal: 16 }}
-          contentContainerStyle={{ paddingBottom: 100, gap: 12, paddingTop: 4 }}
+          columnWrapperStyle={{ gap: 16, paddingHorizontal: 24 }}
+          contentContainerStyle={{ paddingBottom: 100, gap: 16, paddingTop: 12 }}
           refreshControl={
             <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} tintColor="#BFFF00" />
           }

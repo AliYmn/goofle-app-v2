@@ -15,6 +15,7 @@ interface AuthState {
   user: UserRow | null;
   onboardingCompleted: boolean;
   isLoading: boolean;
+  lastFetchTimestamp: number;
   setSession: (session: Session | null) => void;
   setUser: (user: UserRow | null) => void;
   setOnboardingCompleted: (value: boolean) => void;
@@ -42,19 +43,27 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   onboardingCompleted: false,
   isLoading: true,
+  lastFetchTimestamp: 0,
 
   setSession: (session) => set({ session }),
   setUser: (user) => set({ user, onboardingCompleted: user?.onboarding_completed ?? false }),
   setOnboardingCompleted: (value) => set({ onboardingCompleted: value }),
 
   fetchUser: async (userId: string) => {
-    const { data: userRow } = await supabase
+    const timestamp = Date.now();
+    set({ lastFetchTimestamp: timestamp });
+
+    const { data: userRow, error } = await supabase
       .from('users')
       .select('*')
       .eq('id', userId)
       .single();
-    if (userRow) {
+    
+    // Only update if this is still the most recent fetch
+    if (userRow && get().lastFetchTimestamp === timestamp) {
       set({ user: userRow, onboardingCompleted: userRow.onboarding_completed });
+    } else if (error && get().lastFetchTimestamp === timestamp) {
+      console.error('Fetch user error:', error);
     }
   },
 
@@ -105,60 +114,62 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   initialize: async () => {
     set({ isLoading: true });
     try {
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      if (sessionError) throw sessionError;
+      
       set({ session });
 
       if (session?.user) {
         await get().fetchUser(session.user.id);
       }
+
+      const handleAuthCallback = async (url: string | null) => {
+        if (!url || !url.startsWith('gooflo://')) return;
+
+        const params = getAuthCallbackParams(url);
+        const code = params.get('code');
+        const accessToken = params.get('access_token');
+        const refreshToken = params.get('refresh_token');
+
+        if (code) {
+          await supabase.auth.exchangeCodeForSession(code);
+          return;
+        }
+
+        if (accessToken && refreshToken) {
+          await supabase.auth.setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken,
+          });
+        }
+      };
+
+      if (!authStateSubscriptionBound) {
+        authStateSubscriptionBound = true;
+        supabase.auth.onAuthStateChange(async (_event, newSession) => {
+          set({ session: newSession });
+          if (newSession?.user) {
+            await get().fetchUser(newSession.user.id);
+          } else {
+            set({ user: null, onboardingCompleted: false });
+          }
+        });
+      }
+
+      if (!authLinkingSubscriptionBound) {
+        authLinkingSubscriptionBound = true;
+        const initialUrl = await Linking.getInitialURL();
+        await handleAuthCallback(initialUrl);
+
+        Linking.addEventListener('url', ({ url }) => {
+          void handleAuthCallback(url);
+        });
+      }
     } catch (err) {
       console.error('Auth initialization failed:', err);
       set({ session: null, user: null });
+    } finally {
+      set({ isLoading: false });
     }
-
-    const handleAuthCallback = async (url: string | null) => {
-      if (!url || !url.startsWith('gooflo://')) return;
-
-      const params = getAuthCallbackParams(url);
-      const code = params.get('code');
-      const accessToken = params.get('access_token');
-      const refreshToken = params.get('refresh_token');
-
-      if (code) {
-        await supabase.auth.exchangeCodeForSession(code);
-        return;
-      }
-
-      if (accessToken && refreshToken) {
-        await supabase.auth.setSession({
-          access_token: accessToken,
-          refresh_token: refreshToken,
-        });
-      }
-    };
-
-    if (!authStateSubscriptionBound) {
-      authStateSubscriptionBound = true;
-      supabase.auth.onAuthStateChange(async (_event, newSession) => {
-        set({ session: newSession });
-        if (newSession?.user) {
-          await get().fetchUser(newSession.user.id);
-        } else {
-          set({ user: null, onboardingCompleted: false });
-        }
-      });
-    }
-
-    if (!authLinkingSubscriptionBound) {
-      authLinkingSubscriptionBound = true;
-      const initialUrl = await Linking.getInitialURL();
-      await handleAuthCallback(initialUrl);
-
-      Linking.addEventListener('url', ({ url }) => {
-        void handleAuthCallback(url);
-      });
-    }
-
-    set({ isLoading: false });
   },
 }));

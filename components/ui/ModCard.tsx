@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
-import { View, Text, Pressable, Image as RNImage } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import { Image } from 'expo-image';
+import { Ionicons } from '@expo/vector-icons';
 import Animated, { useSharedValue, useAnimatedStyle } from 'react-native-reanimated';
 import { pressIn, pressOut } from '@/lib/animations';
 import { haptic } from '@/lib/haptics';
@@ -64,8 +65,12 @@ export function ModCard({
       onError={() => setHasImageError(true)}
     />
   ) : (
-    <View className="flex-1 bg-[#1C1C1C] items-center justify-center overflow-hidden">
-      <RNImage source={APP_ICON} style={{ width: 28, height: 28, opacity: 0.45 }} resizeMode="contain" />
+    <View className="flex-1 bg-dark items-center justify-center overflow-hidden">
+      <Image
+        source={APP_ICON}
+        style={{ width: 28, height: 28, opacity: 0.45 }}
+        contentFit="contain"
+      />
     </View>
   );
 
@@ -114,7 +119,7 @@ export function ModCard({
         )}
         {isOfficial && (
           <View className="absolute top-2 left-2">
-            <Badge label="✓" variant="lime" size="sm" />
+            <Badge label={<Ionicons name="checkmark" size={12} color="#000" />} variant="lime" size="sm" />
           </View>
         )}
       </View>
@@ -125,9 +130,9 @@ export function ModCard({
       {onTryPress && (
         <Pressable
           onPress={onTryPress}
-          className="mt-2 mx-0.5 bg-[#BFFF00]/10 rounded-lg py-1.5 items-center"
+          className="mt-2 mx-0.5 bg-lime/10 rounded-lg py-1.5 items-center active:bg-lime/20"
         >
-          <Text className="text-[#BFFF00] font-semibold text-xs">{t('mods.tryThis')}</Text>
+          <Text className="text-lime font-bold text-xs">{t('mods.tryThis')}</Text>
         </Pressable>
       )}
     </AnimatedPressable>
