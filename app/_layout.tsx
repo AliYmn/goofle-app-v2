@@ -63,7 +63,7 @@ async function registerPushToken(userId: string) {
 
 export default Sentry.wrap(function RootLayout() {
   const { colorScheme } = useThemeStore();
-  const { initialize, session } = useAuthStore();
+  const { initialize, session, isLoading: authLoading } = useAuthStore();
   const { setIsPro } = useSubscriptionStore();
   const { status: gateStatus, recheck } = useAppGate();
 
@@ -95,11 +95,12 @@ export default Sentry.wrap(function RootLayout() {
     bootstrapApp();
   }, []);
 
+  // Keep native splash visible until BOTH fonts and auth are ready — prevents the brief black flash
   useEffect(() => {
-    if (fontsLoaded || fontError) {
+    if ((fontsLoaded || fontError) && !authLoading) {
       SplashScreen.hideAsync();
     }
-  }, [fontsLoaded, fontError]);
+  }, [fontsLoaded, fontError, authLoading]);
 
   if (!fontsLoaded && !fontError) {
     return null;
@@ -133,7 +134,7 @@ export default Sentry.wrap(function RootLayout() {
           <Stack screenOptions={{ headerShown: false }}>
             <Stack.Screen name="index" />
             <Stack.Screen name="(auth)" />
-            <Stack.Screen name="(onboarding)" />
+            <Stack.Screen name="(onboarding)" options={{ animation: 'fade', animationDuration: 250 }} />
             <Stack.Screen name="(tabs)" />
             <Stack.Screen name="mod/[slug]" options={{ presentation: 'modal' }} />
             <Stack.Screen name="generation/[id]" options={{ presentation: 'modal' }} />
